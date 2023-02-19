@@ -1,2 +1,10 @@
 server:
-  port: :8080
+  network: "tcp"
+  host: "localhost"
+  port: 8080
+  shutdown_timeout: 5s
+  read_timeout: 5s
+  write_timeout: 10s
+  idle_timeout: 60s
+database:
+  dsn: postgres://postgres:postgres@gitsast:5432/test?sslmode=disable

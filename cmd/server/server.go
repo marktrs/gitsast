@@ -2,55 +2,62 @@ package server
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
-	"github.com/pkg/errors"
+	"github.com/marktrs/gitsast/internal/config"
+	"github.com/marktrs/gitsast/internal/recover"
 )
 
-func Start() error {
+func Start(cfg *config.AppConfig, r http.Handler) error {
+	httpLn, err := net.Listen(cfg.Server.Network, cfg.Server.Host+":"+cfg.Server.Port)
+	if err != nil {
+		panic(err)
+	}
+
+	handler := http.Handler(r)
+	handler = recover.PanicHandler{Next: handler}
+
+	httpServer := &http.Server{
+		Addr:         httpLn.Addr().String(),
+		ReadTimeout:  cfg.Server.ReadTimeout,
+		WriteTimeout: cfg.Server.WriteTimeout,
+		IdleTimeout:  cfg.Server.IdleTimeout,
+		Handler:      handler,
+	}
+
+	log.Infof("listening on : %s", httpServer.Addr)
+
 	serverErr := make(chan error, 1)
-	e := echo.New()
-	e.HideBanner = true
-
-	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	// Logger
-	e.Logger.SetLevel(log.INFO)
-
 	// start server
 	go func() {
-		serverErr <- e.Start(":1323")
+		serverErr <- httpServer.Serve(httpLn)
 	}()
 
 	// set shutdown signal
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
 
-	deadline := 10 * time.Second
-
 	select {
 	case err := <-serverErr:
-		e.Logger.Infof("server error : %v", err)
+		log.Errorf("server error : %v", err)
 		return err
 	case sig := <-shutdown:
-		e.Logger.Infof("start shutdown with signal: %v", sig)
+		log.Infof("start shutdown with signal: %v", sig)
 		// set deadline for completion
-		ctx, cancel := context.WithTimeout(context.Background(), deadline)
+		ctx, cancel := context.WithTimeout(context.Background(), cfg.Server.ShutdownTimeout)
 		defer cancel()
 
-		// asking listener to shutdown
-		err := e.Shutdown(ctx)
+		// asking listener to gracefully shutdown
+		err := httpServer.Shutdown(ctx)
 		if err != nil {
-			e.Logger.Infof("graceful shutdown did not complete in %v : %v", deadline.String(), err)
-			err = e.Close()
+			log.Errorf("graceful shutdown did not complete in %v : %v", cfg.Server.ShutdownTimeout.String(), err)
 			return err
 		}
 
@@ -59,9 +66,9 @@ func Start() error {
 		case sig == syscall.SIGSTOP:
 			return errors.New("integrity issue caused shutdown")
 		case err != nil:
-			return errors.Wrap(err, "could not stop server gracefully")
+			return fmt.Errorf("could not stop server gracefully: %v", err)
 		default:
-			e.Logger.Infof("shutdown complete")
+			log.Info("shutdown complete")
 		}
 	}
 

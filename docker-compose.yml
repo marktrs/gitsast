@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   server:
+    container_name: "gitsast-api"
     image: gitsast
     build:
       context: .
@@ -10,8 +11,9 @@ services:
     environment:
       - APP_ENV=${APP_ENV}
     command: sh -c "/app/entrypoint.sh"
-  db:
-    image: "postgres:alpine"
+  postgres:
+    container_name: "postgres"
+    image: "postgres:latest"
     restart: always
     environment:
       POSTGRES_USER: "postgres"
@@ -22,3 +24,5 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 5432:5432
