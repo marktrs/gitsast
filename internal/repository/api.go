@@ -7,10 +7,14 @@ import (
 )
 
 func RegisterHandlers(rg *bunrouter.Group, db *bun.DB, v *validator.Validate) {
-	h := NewRepositoryHandler(db, v)
-	rg.GET("/repository/:id", h.GetById)
-	rg.GET("/repository", h.List)
-	rg.POST("/repository", h.Add)
-	rg.PUT("/repository/:id", h.Update)
-	rg.DELETE("/repository/:id", h.Remove)
+	h := NewHTTPHandler(NewService(v, NewRepositoryRepo(db), NewReportRepo(db)))
+
+	rg.WithGroup("/repository", func(g *bunrouter.Group) {
+		g.GET("/:id", h.GetById)
+		g.GET("", h.List)
+		g.POST("", h.Add)
+		g.PUT("/:id", h.Update)
+		g.DELETE("/:id", h.Remove)
+		g.POST("/:id/scan", h.Scan)
+	})
 }

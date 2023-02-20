@@ -17,9 +17,10 @@ type RepositoryFilter struct {
 	Offset int
 }
 
+// decodeRepositoryFilter - decode repository filter query from request
 func decodeRepositoryFilter(req bunrouter.Request) (*RepositoryFilter, error) {
 	var err error
-
+	// default
 	limit := 100
 	offset := 0
 

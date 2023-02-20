@@ -21,14 +21,17 @@ func NewDBMigrator(db *bun.DB) *dbMigrator {
 	}
 }
 
-// Migrate - start db migration with list of models 
+// Migrate - start db migration with list of models
 func (m *dbMigrator) Migrate() error {
 	log.Info("start db migration")
 
 	// add a new model to migrate here
-	if err := m.createTablesIfNotExist(
-		&repository.Repository{},
-	); err != nil {
+	models := []interface{}{
+		(*repository.Report)(nil),
+		(*repository.Repository)(nil),
+	}
+
+	if err := m.createTablesIfNotExist(models); err != nil {
 		return err
 	}
 
@@ -37,7 +40,7 @@ func (m *dbMigrator) Migrate() error {
 }
 
 // createTablesIfNotExist - Iterate through the list of model to create new tables if doesn't exist
-func (m *dbMigrator) createTablesIfNotExist(models ...interface{}) error {
+func (m *dbMigrator) createTablesIfNotExist(models []interface{}) error {
 	for _, model := range models {
 		_, err := m.db.NewCreateTable().
 			Model(model).
