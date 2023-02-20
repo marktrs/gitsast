@@ -6,13 +6,12 @@ import (
 	"net/http"
 
 	"github.com/labstack/gommon/log"
+	"github.com/marktrs/gitsast/internal/model"
 	"github.com/uptrace/bunrouter"
 )
 
 // // HTTPHandler variable that does static check to make sure that httpHandler struct implements HTTPHandler interface.
 var _ HTTPHandler = (*httpHandler)(nil)
-
-const kb = 10
 
 var (
 	ErrInvalidParam = errors.New("error invalid parameter")
@@ -62,7 +61,7 @@ func (h *httpHandler) GetById(w http.ResponseWriter, req bunrouter.Request) erro
 func (h *httpHandler) List(w http.ResponseWriter, req bunrouter.Request) error {
 	ctx := req.Context()
 
-	f, err := decodeRepositoryFilter(req)
+	f, err := model.DecodeRepositoryFilter(req)
 	if err != nil {
 		return err
 	}

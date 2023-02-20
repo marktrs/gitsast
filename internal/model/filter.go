@@ -1,4 +1,4 @@
-package repository
+package model
 
 import (
 	"errors"
@@ -17,8 +17,8 @@ type RepositoryFilter struct {
 	Offset int
 }
 
-// decodeRepositoryFilter - decode repository filter query from request
-func decodeRepositoryFilter(req bunrouter.Request) (*RepositoryFilter, error) {
+// DecodeRepositoryFilter - decode repository filter query from request
+func DecodeRepositoryFilter(req bunrouter.Request) (*RepositoryFilter, error) {
 	var err error
 	// default
 	limit := 100

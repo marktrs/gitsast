@@ -9,10 +9,13 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
+	"github.com/marktrs/gitsast/internal/model"
 	"github.com/marktrs/gitsast/internal/queue"
+	"github.com/marktrs/gitsast/internal/queue/task"
 )
 
 var _ IService = (*service)(nil)
+
 var (
 	ErrReportInProgress = errors.New(
 		`the report for this repository already initialized, only completed/failed report can retry`)
@@ -21,17 +24,17 @@ var (
 // IService defines methods for business logic of repository domain
 // such as validate request body, enqueue analyzing task, CRUD repository or report
 type IService interface {
-	GetById(ctx context.Context, id string) (*Repository, error)
-	List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error)
-	Add(ctx context.Context, req *AddRepositoryRequest) (*Repository, error)
+	GetById(ctx context.Context, id string) (*model.Repository, error)
+	List(ctx context.Context, f *model.RepositoryFilter) ([]*model.Repository, error)
+	Add(ctx context.Context, req *AddRepositoryRequest) (*model.Repository, error)
 	Update(ctx context.Context, id string, req *UpdateRepositoryRequest) error
 	Remove(ctx context.Context, id string) error
-	CreateReport(ctx context.Context, repoId string) (*Report, error)
+	CreateReport(ctx context.Context, repoId string) (*model.Report, error)
 }
 
 type service struct {
-	repo      IRepository
-	report    IReport
+	repo      model.IRepository
+	report    model.IReport
 	queue     queue.Handler
 	validator *validator.Validate
 }
@@ -46,7 +49,7 @@ type UpdateRepositoryRequest struct {
 	RemoteURL string `json:"remote_url"`
 }
 
-func NewService(v *validator.Validate, q queue.Handler, rs IRepository, rp IReport) IService {
+func NewService(v *validator.Validate, q queue.Handler, rs model.IRepository, rp model.IReport) IService {
 	return &service{
 		repo:      rs,
 		report:    rp,
@@ -56,24 +59,24 @@ func NewService(v *validator.Validate, q queue.Handler, rs IRepository, rp IRepo
 }
 
 // GetById implements IService.GetById interface.
-func (s *service) GetById(ctx context.Context, id string) (*Repository, error) {
+func (s *service) GetById(ctx context.Context, id string) (*model.Repository, error) {
 	return s.repo.GetById(ctx, id)
 }
 
 // List implements IService.List interface.
-func (s *service) List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error) {
+func (s *service) List(ctx context.Context, f *model.RepositoryFilter) ([]*model.Repository, error) {
 	return s.repo.List(ctx, f)
 }
 
 // Add implements IService.Add interface.
-func (s *service) Add(ctx context.Context, req *AddRepositoryRequest) (*Repository, error) {
+func (s *service) Add(ctx context.Context, req *AddRepositoryRequest) (*model.Repository, error) {
 	// validate request body
 	if err := s.validator.Struct(req); err != nil {
 		log.Errorf("Request validation failed on add repository handler : %s", err.Error())
 		return nil, err
 	}
 
-	repo := &Repository{
+	repo := &model.Repository{
 		ID:        uuid.New().String(),
 		Name:      req.Name,
 		RemoteURL: req.RemoteURL,
@@ -106,8 +109,13 @@ func (s *service) Remove(ctx context.Context, id string) error {
 }
 
 // CreateReport implements IService.CreateReport interface.
-func (s *service) CreateReport(ctx context.Context, repoId string) (*Report, error) {
-	report, err := s.report.GetByRepoId(ctx, repoId)
+func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Report, error) {
+	repo, err := s.repo.GetById(ctx, repoId)
+	if err != nil {
+		return nil, err
+	}
+
+	report, err := s.report.GetByRepoId(ctx, repo.ID)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			return nil, err
@@ -116,15 +124,15 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*Report, err
 
 	// if report exist
 	if report != nil {
-		if report.Status != StatusSuccess && report.Status != StatusFailed {
+		if report.Status != model.StatusSuccess && report.Status != model.StatusFailed {
 			return nil, ErrReportInProgress
 		}
 	}
 
 	// generate a new report
-	report = &Report{
+	report = &model.Report{
 		ID:           uuid.New().String(),
-		Status:       StatusInitialized,
+		Status:       model.StatusInitialized,
 		RepositoryID: repoId,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
@@ -136,13 +144,14 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*Report, err
 	}
 	log.Infof("created a new report with id: %s", report.ID)
 
-	s.queue.AddTask(queue.AnalyzeTask.WithArgs(ctx, report.ID))
+	s.queue.AddTask(
+		task.AnalyzeTask.WithArgs(ctx, report.ID))
 	if err != nil {
 		return nil, err
 	}
 	log.Infof("enqueued a new report with id: %s", report.ID)
 
-	report.Status = StatusEnqueued
+	report.Status = model.StatusEnqueued
 	report.EnqueueAt = time.Now()
 
 	report, err = s.report.Update(ctx, report)

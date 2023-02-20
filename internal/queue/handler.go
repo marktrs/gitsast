@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-redis/redis/v8"
 
-	"github.com/marktrs/gitsast/internal/queue/task"
 	"github.com/vmihailenco/taskq/v3"
 	"github.com/vmihailenco/taskq/v3/redisq"
 )
@@ -17,16 +16,6 @@ type Handler interface {
 	StartConsumer() error
 	AddTask(t *taskq.Message) error
 }
-
-var (
-	AnalyzeTask = taskq.RegisterTask(&taskq.TaskOptions{
-		Name: "analyzer",
-		Handler: func(id string) error {
-			task.NewAnalyzeTask().Start(id)
-			return nil
-		},
-	})
-)
 
 type handler struct {
 	redis        *redis.Client

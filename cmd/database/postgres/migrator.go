@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/labstack/gommon/log"
-	"github.com/marktrs/gitsast/internal/repository"
+	"github.com/marktrs/gitsast/internal/model"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/migrate"
 )
@@ -27,11 +27,12 @@ func (m *dbMigrator) Migrate() error {
 
 	// add a new model to migrate here
 	models := []interface{}{
-		(*repository.Report)(nil),
-		(*repository.Repository)(nil),
+		(*model.Report)(nil),
+		(*model.Repository)(nil),
 	}
 
 	if err := m.createTablesIfNotExist(models); err != nil {
+		log.Error(err)
 		return err
 	}
 
@@ -47,6 +48,7 @@ func (m *dbMigrator) createTablesIfNotExist(models []interface{}) error {
 			IfNotExists().
 			Exec(context.Background())
 		if err != nil {
+			log.Error(err)
 			return err
 		}
 	}
