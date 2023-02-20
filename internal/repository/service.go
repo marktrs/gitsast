@@ -9,9 +9,14 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
+	"github.com/marktrs/gitsast/internal/queue"
 )
 
 var _ IService = (*service)(nil)
+var (
+	ErrReportInProgress = errors.New(
+		`the report for this repository already initialized, only completed/failed report can retry`)
+)
 
 // IService defines methods for business logic of repository domain
 // such as validate request body, enqueue analyzing task, CRUD repository or report
@@ -27,6 +32,7 @@ type IService interface {
 type service struct {
 	repo      IRepository
 	report    IReport
+	queue     queue.Handler
 	validator *validator.Validate
 }
 
@@ -40,11 +46,12 @@ type UpdateRepositoryRequest struct {
 	RemoteURL string `json:"remote_url"`
 }
 
-func NewService(v *validator.Validate, rs IRepository, rp IReport) IService {
+func NewService(v *validator.Validate, q queue.Handler, rs IRepository, rp IReport) IService {
 	return &service{
 		repo:      rs,
 		report:    rp,
 		validator: v,
+		queue:     q,
 	}
 }
 
@@ -101,16 +108,16 @@ func (s *service) Remove(ctx context.Context, id string) error {
 // CreateReport implements IService.CreateReport interface.
 func (s *service) CreateReport(ctx context.Context, repoId string) (*Report, error) {
 	report, err := s.report.GetByRepoId(ctx, repoId)
-	if err != sql.ErrNoRows {
-		return nil, err
+	if err != nil {
+		if err != sql.ErrNoRows {
+			return nil, err
+		}
 	}
 
 	// if report exist
-	if report.ID != "" {
+	if report != nil {
 		if report.Status != StatusSuccess && report.Status != StatusFailed {
-			return nil, errors.New(
-				`the report for this repository already initialized, 
-				only completed/failed report can retry`)
+			return nil, ErrReportInProgress
 		}
 	}
 
@@ -124,18 +131,22 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*Report, err
 	}
 
 	report, err = s.report.Add(ctx, report)
-	if err != sql.ErrNoRows {
+	if err != nil {
 		return nil, err
 	}
+	log.Infof("created a new report with id: %s", report.ID)
 
-	// TODO: enqueue
-	// ...
+	s.queue.AddTask(queue.AnalyzeTask.WithArgs(ctx, report.ID))
+	if err != nil {
+		return nil, err
+	}
+	log.Infof("enqueued a new report with id: %s", report.ID)
 
 	report.Status = StatusEnqueued
 	report.EnqueueAt = time.Now()
 
 	report, err = s.report.Update(ctx, report)
-	if err != sql.ErrNoRows {
+	if err != nil {
 		return nil, err
 	}
 

@@ -23,7 +23,7 @@ func NewDBMigrator(db *bun.DB) *dbMigrator {
 
 // Migrate - start db migration with list of models
 func (m *dbMigrator) Migrate() error {
-	log.Info("start db migration")
+	log.Info("starting db migration")
 
 	// add a new model to migrate here
 	models := []interface{}{

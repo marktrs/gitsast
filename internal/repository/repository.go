@@ -16,7 +16,7 @@ type Repository struct {
 	CreatedAt time.Time `json:"created_at" bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time `json:"updated_at" bun:",nullzero,notnull,default:current_timestamp"`
 
-	Report *Report `bun:"rel:has-one,join:id=repository_id"`
+	Report *Report `json:"report,omitempty" bun:"rel:has-one,join:id=repository_id"`
 }
 
 // IRepository defines methods for read/write repositories table.

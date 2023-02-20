@@ -2,12 +2,13 @@ package repository
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/marktrs/gitsast/internal/queue"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bunrouter"
 )
 
-func RegisterHandlers(rg *bunrouter.Group, db *bun.DB, v *validator.Validate) {
-	h := NewHTTPHandler(NewService(v, NewRepositoryRepo(db), NewReportRepo(db)))
+func RegisterHandlers(rg *bunrouter.Group, db *bun.DB, v *validator.Validate, q queue.Handler) {
+	h := NewHTTPHandler(NewService(v, q, NewRepositoryRepo(db), NewReportRepo(db)))
 
 	rg.WithGroup("/repository", func(g *bunrouter.Group) {
 		g.GET("/:id", h.GetById)
