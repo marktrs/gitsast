@@ -31,22 +31,22 @@ const (
 )
 
 // IReport defines methods for read/write reports table.
-type IReport interface {
+type IReportRepo interface {
 	GetById(ctx context.Context, id string) (*Report, error)
 	GetByRepoId(ctx context.Context, id string) (*Report, error)
 	Update(ctx context.Context, report *Report) (*Report, error)
 	Add(ctx context.Context, report *Report) (*Report, error)
 }
 
-type report struct {
+type ReportRepo struct {
 	db *bun.DB
 }
 
-func NewReportRepo(db *bun.DB) IReport {
-	return &report{db}
+func NewReportRepo(db *bun.DB) IReportRepo {
+	return &ReportRepo{db}
 }
 
-func (r *report) GetById(ctx context.Context, id string) (*Report, error) {
+func (r *ReportRepo) GetById(ctx context.Context, id string) (*Report, error) {
 	report := &Report{}
 	err := r.db.NewSelect().Model(report).
 		Where("id = ?", id).
@@ -59,7 +59,7 @@ func (r *report) GetById(ctx context.Context, id string) (*Report, error) {
 	return report, nil
 }
 
-func (r *report) GetByRepoId(ctx context.Context, id string) (*Report, error) {
+func (r *ReportRepo) GetByRepoId(ctx context.Context, id string) (*Report, error) {
 	report := &Report{}
 	err := r.db.NewSelect().Model(report).
 		Where("repository_id = ?", id).
@@ -72,7 +72,7 @@ func (r *report) GetByRepoId(ctx context.Context, id string) (*Report, error) {
 	return report, nil
 }
 
-func (r *report) Add(ctx context.Context, report *Report) (*Report, error) {
+func (r *ReportRepo) Add(ctx context.Context, report *Report) (*Report, error) {
 	_, err := r.db.NewInsert().Model(report).Exec(ctx)
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (r *report) Add(ctx context.Context, report *Report) (*Report, error) {
 	return report, nil
 }
 
-func (r *report) Update(ctx context.Context, report *Report) (*Report, error) {
+func (r *ReportRepo) Update(ctx context.Context, report *Report) (*Report, error) {
 	_, err := r.db.NewUpdate().Model(report).WherePK().Exec(ctx)
 	if err != nil {
 		return nil, err

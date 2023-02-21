@@ -33,8 +33,8 @@ type IService interface {
 }
 
 type service struct {
-	repo      model.IRepository
-	report    model.IReport
+	repo      model.IRepositoryRepo
+	report    model.IReportRepo
 	queue     queue.Handler
 	validator *validator.Validate
 }
@@ -49,7 +49,7 @@ type UpdateRepositoryRequest struct {
 	RemoteURL string `json:"remote_url"`
 }
 
-func NewService(v *validator.Validate, q queue.Handler, rs model.IRepository, rp model.IReport) IService {
+func NewService(v *validator.Validate, q queue.Handler, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
 	return &service{
 		repo:      rs,
 		report:    rp,

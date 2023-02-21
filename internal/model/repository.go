@@ -20,7 +20,7 @@ type Repository struct {
 }
 
 // IRepository defines methods for read/write repositories table.
-type IRepository interface {
+type IRepositoryRepo interface {
 	GetById(ctx context.Context, id string) (*Repository, error)
 	List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error)
 	Add(ctx context.Context, repo *Repository) (*Repository, error)
@@ -28,15 +28,17 @@ type IRepository interface {
 	Remove(ctx context.Context, id string) error
 }
 
-type repository struct {
+type RepositoryRepo struct {
 	db *bun.DB
 }
 
-func NewRepositoryRepo(db *bun.DB) IRepository {
-	return &repository{db}
+// NewRepositoryRepo returns a new instance of RepositoryRepo.
+func NewRepositoryRepo(db *bun.DB) IRepositoryRepo {
+	return &RepositoryRepo{db}
 }
 
-func (r *repository) GetById(ctx context.Context, id string) (*Repository, error) {
+// GetById - returns a repository by id.
+func (r *RepositoryRepo) GetById(ctx context.Context, id string) (*Repository, error) {
 	repo := &Repository{}
 	err := r.db.NewSelect().Model(repo).Where("id = ?", id).Scan(ctx)
 	if err != nil {
@@ -46,7 +48,8 @@ func (r *repository) GetById(ctx context.Context, id string) (*Repository, error
 	return repo, nil
 }
 
-func (r *repository) List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error) {
+// List - returns a list of repositories.
+func (r *RepositoryRepo) List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error) {
 	repos := []*Repository{}
 	err := r.db.NewSelect().
 		Model(&repos).
@@ -61,17 +64,18 @@ func (r *repository) List(ctx context.Context, f *RepositoryFilter) ([]*Reposito
 	return repos, nil
 }
 
-func (r *repository) Add(ctx context.Context, repo *Repository) (*Repository, error) {
+// Add - adds a new repository.
+func (r *RepositoryRepo) Add(ctx context.Context, repo *Repository) (*Repository, error) {
 	_, err := r.db.NewInsert().Model(repo).Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	return repo, nil
-
 }
 
-func (r *repository) Update(ctx context.Context, id string, repo map[string]interface{}) error {
+// Update - updates a repository.
+func (r *RepositoryRepo) Update(ctx context.Context, id string, repo map[string]interface{}) error {
 	_, err := r.db.NewUpdate().
 		Model(&repo).
 		TableExpr("repositories").
@@ -85,7 +89,8 @@ func (r *repository) Update(ctx context.Context, id string, repo map[string]inte
 	return nil
 }
 
-func (r *repository) Remove(ctx context.Context, id string) error {
+// Remove - removes a repository.
+func (r *RepositoryRepo) Remove(ctx context.Context, id string) error {
 	_, err := r.db.NewDelete().
 		Model((*Repository)(nil)).
 		Where("id = ?", id).

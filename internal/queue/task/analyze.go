@@ -16,25 +16,30 @@ import (
 
 var _ IAnalyzeTask = (*Analyzer)(nil)
 
+// Task - register analyze task into task queue
 var (
 	AnalyzeTask = taskq.RegisterTask(&taskq.TaskOptions{
 		Name: "analyzer",
 		Handler: func(id string) error {
+			// start analyze task
 			NewAnalyzeTask().Start(id)
 			return nil
 		},
 	})
 )
 
+// IAnalyzeTask - interface for analyze task
 type IAnalyzeTask interface {
 	Start(reportId string) error
 }
 
 type Analyzer struct {
-	repo   model.IRepository
-	report model.IReport
+	repo   model.IRepositoryRepo
+	report model.IReportRepo
+	rule   model.IRuleRepo
 }
 
+// NewAnalyzeTask - create new analyze task
 func NewAnalyzeTask() IAnalyzeTask {
 	// TODO: don't reload config here
 	// load app config
@@ -48,10 +53,12 @@ func NewAnalyzeTask() IAnalyzeTask {
 	db := bun.NewDB(sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(cfg.DB.Dsn))), pgdialect.New())
 	repo := model.NewRepositoryRepo(db)
 	report := model.NewReportRepo(db)
+	rule := model.NewRuleRepo(db)
 
-	return &Analyzer{repo, report}
+	return &Analyzer{repo, report, rule}
 }
 
+// Start - start analyze task
 func (t *Analyzer) Start(reportId string) error {
 	ctx := context.Background()
 
@@ -66,15 +73,20 @@ func (t *Analyzer) Start(reportId string) error {
 		return err
 	}
 
-	// 1. look up for rules
+	// look up for latest rules
+	rules, err := t.rule.GetAll(ctx)
+	if err != nil {
+		return err
+	}
+	log.Infof("rules downloaded %+v", rules)
 
-	// 2. look up for latest code
+	// look up for latest code
 
-	// 3. scan for issue
+	// scan for issues
 
-	// 4. add issue to report (db)
+	// add issue to report (db)
 
-	// 5. update report status (db)
+	// update report status (db)
 
 	if err := t.setReportStatus(report, model.StatusSuccess); err != nil {
 		return err
@@ -86,6 +98,7 @@ func (t *Analyzer) Start(reportId string) error {
 	return nil
 }
 
+// setReportStatus - set report status
 func (t *Analyzer) setReportStatus(report *model.Report, status model.ReportStatus) error {
 	ctx := context.Background()
 
