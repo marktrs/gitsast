@@ -21,5 +21,6 @@ func RegisterHandlers(rg *bunrouter.Group, db *bun.DB, v *validator.Validate, q 
 		g.PUT("/:id", h.Update)
 		g.DELETE("/:id", h.Remove)
 		g.POST("/:id/scan", h.Scan)
+		g.GET("/:id/report", h.GetReport)
 	})
 }

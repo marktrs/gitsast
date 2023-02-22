@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
 )
 
 type Report struct {
@@ -18,6 +19,9 @@ type Report struct {
 	EnqueueAt    time.Time    `json:"enqueue_at,omitempty"`
 	StartedAt    time.Time    `json:"started_at,omitempty"`
 	FinishedAt   time.Time    `json:"finished_at,omitempty"`
+	FailedReason string       `json:"failed_reason,omitempty"`
+
+	Issues []*Issue `json:"issues,omitempty" bun:"type:jsonb"`
 }
 
 type ReportStatus string
@@ -36,6 +40,7 @@ type IReportRepo interface {
 	GetByRepoId(ctx context.Context, id string) (*Report, error)
 	Update(ctx context.Context, report *Report) (*Report, error)
 	Add(ctx context.Context, report *Report) (*Report, error)
+	GetIssues(ctx context.Context, reportID string) ([]*Issue, error)
 }
 
 type ReportRepo struct {
@@ -88,4 +93,19 @@ func (r *ReportRepo) Update(ctx context.Context, report *Report) (*Report, error
 	}
 
 	return report, nil
+}
+
+// GetReportIssues - get all issues for report
+func (r *ReportRepo) GetIssues(ctx context.Context, reportID string) ([]*Issue, error) {
+	var issues []*Issue
+	err := r.db.NewSelect().
+		Model((*Report)(nil)).
+		ColumnExpr("issues").
+		Where("id = ?", reportID).
+		Scan(ctx, pgdialect.Array(&issues))
+	if err != nil {
+		return nil, err
+	}
+
+	return issues, nil
 }

@@ -15,7 +15,7 @@ type Rule struct {
 	Name        string    `json:"name" bun:",unique,notnull"`
 	Keyword     string    `json:"keyword" bun:",unique,notnull"`
 	Description string    `json:"description" bun:",notnull"`
-	Serverity   Score     `json:"serverity" bun:",notnull"`
+	Severity    Score     `json:"severity" bun:",notnull"`
 	CreatedAt   time.Time `json:"created_at" bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt   time.Time `json:"updated_at" bun:",nullzero,notnull,default:current_timestamp"`
 }
@@ -46,7 +46,7 @@ func (c Score) String() string {
 }
 
 // GetFormattedRuleId - return a formatted rule ID
-func GetFormattedRuleId(id uint16) string {
+func GetFormattedRuleId(id uint64) string {
 	return "G" + fmt.Sprintf("%03d", id)
 }
 

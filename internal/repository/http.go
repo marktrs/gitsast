@@ -26,6 +26,7 @@ type HTTPHandler interface {
 	Update(http.ResponseWriter, bunrouter.Request) error
 	Remove(http.ResponseWriter, bunrouter.Request) error
 	Scan(http.ResponseWriter, bunrouter.Request) error
+	GetReport(http.ResponseWriter, bunrouter.Request) error
 }
 
 type httpHandler struct {
@@ -145,6 +146,26 @@ func (h *httpHandler) Scan(w http.ResponseWriter, req bunrouter.Request) error {
 	}
 
 	report, err := h.service.CreateReport(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return bunrouter.JSON(w, &report)
+}
+
+// GetReport implements HTTPHandler.GetReport interface.
+func (h *httpHandler) GetReport(w http.ResponseWriter, req bunrouter.Request) error {
+	ctx := req.Context()
+
+	params := req.Params().Map()
+
+	id, ok := params["id"]
+	if !ok {
+		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		return ErrInvalidParam
+	}
+
+	report, err := h.service.GetReportByRepoId(ctx, id)
 	if err != nil {
 		return err
 	}

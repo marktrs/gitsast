@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/internal/model"
 	"github.com/marktrs/gitsast/internal/queue"
-	"github.com/marktrs/gitsast/internal/queue/task"
+	"github.com/marktrs/gitsast/internal/queue/task/analyzer"
 )
 
 var _ IService = (*service)(nil)
@@ -30,6 +30,7 @@ type IService interface {
 	Update(ctx context.Context, id string, req *UpdateRepositoryRequest) error
 	Remove(ctx context.Context, id string) error
 	CreateReport(ctx context.Context, repoId string) (*model.Report, error)
+	GetReportByRepoId(ctx context.Context, repoId string) (*model.Report, error)
 }
 
 type service struct {
@@ -136,6 +137,7 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 		RepositoryID: repoId,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
+		Issues:       []*model.Issue{},
 	}
 
 	report, err = s.report.Add(ctx, report)
@@ -145,7 +147,7 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	log.Infof("created a new report with id: %s", report.ID)
 
 	s.queue.AddTask(
-		task.AnalyzeTask.WithArgs(ctx, report.ID))
+		analyzer.Task.WithArgs(ctx, report.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -160,4 +162,9 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	}
 
 	return report, nil
+}
+
+// GetReport - Implements IService.GetReport interface.
+func (s *service) GetReportByRepoId(ctx context.Context, id string) (*model.Report, error) {
+	return s.report.GetByRepoId(ctx, id)
 }

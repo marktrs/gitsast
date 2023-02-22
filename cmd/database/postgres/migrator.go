@@ -33,6 +33,11 @@ func (m *dbMigrator) Migrate() error {
 		(*model.Repository)(nil),
 	}
 
+	if err := m.resetTable(models); err != nil {
+		log.Error(err)
+		return err
+	}
+
 	if err := m.createTablesIfNotExist(models); err != nil {
 		log.Error(err)
 		return err
@@ -44,14 +49,14 @@ func (m *dbMigrator) Migrate() error {
 			Name:        "Public key leak",
 			Description: "A secret starts with the prefix public_key",
 			Keyword:     "public_key",
-			Serverity:   model.Low,
+			Severity:    model.Low,
 		},
 		{
 			ID:          2,
 			Name:        "Private key leak",
 			Description: "A secret starts with the prefix private_key",
 			Keyword:     "private_key",
-			Serverity:   model.High,
+			Severity:    model.High,
 		},
 	}); err != nil {
 		log.Error(err)
@@ -59,6 +64,25 @@ func (m *dbMigrator) Migrate() error {
 	}
 
 	log.Info("db migration complete")
+	return nil
+}
+
+// ResetTable - reset table
+func (m *dbMigrator) resetTable(models []interface{}) error {
+	log.Info("resetting table")
+
+	for _, model := range models {
+		_, err := m.db.NewDropTable().
+			Model(model).
+			IfExists().
+			Exec(context.Background())
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+	}
+
+	log.Info("reset table complete")
 	return nil
 }
 

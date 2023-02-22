@@ -25,7 +25,8 @@ type handler struct {
 
 func NewHandler() Handler {
 	redis := redis.NewClient(&redis.Options{
-		Addr: ":6379",
+		Addr:       ":6379",
+		MaxRetries: 3,
 	})
 
 	queueFactory := redisq.NewFactory()
@@ -72,3 +73,4 @@ func (h *handler) StartConsumer() error {
 
 	return nil
 }
+
