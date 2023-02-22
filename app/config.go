@@ -1,8 +1,9 @@
-package config
+package app
 
 import (
 	"errors"
-	"io/ioutil"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/labstack/gommon/log"
@@ -13,11 +14,14 @@ import (
 type AppConfig struct {
 	Server *Server   `yaml:"server,omitempty"`
 	DB     *Database `yaml:"database,omitempty"`
+
+	Debug bool `yaml:"debug,omitempty"`
+	Env   bool `yaml:"env,omitempty"`
 }
 
 // Database holds data for database configuration
 type Database struct {
-	Dsn string `yaml:"dsn,omitempty" envconfig: `
+	DSN string `yaml:"dsn,omitempty"`
 }
 
 // Server holds data for server configuration
@@ -32,14 +36,14 @@ type Server struct {
 }
 
 // Load returns config from yaml and environment variables.
-func Load(file string) (*AppConfig, error) {
+func LoadConfigFile(file string) (*AppConfig, error) {
 	log.Infof("loading config file : %s \n", file)
 
 	// default config
 	var c AppConfig
 
 	// load from YAML config file
-	if rawcfg, err := ioutil.ReadFile(file); err == nil {
+	if rawcfg, err := os.ReadFile(file); err == nil {
 		if err := yaml.Unmarshal(rawcfg, &c); err != nil {
 			log.Errorf("error on json marshall of config file : %s", file)
 			return nil, err
@@ -50,9 +54,14 @@ func Load(file string) (*AppConfig, error) {
 	}
 
 	// if dsn still empty, throw error
-	if c.DB.Dsn == "" {
+	if c.DB.DSN == "" {
 		return nil, errors.New("database configuration is missing")
 	}
 
 	return &c, nil
+}
+
+func DefaultConfigPath(env string) string {
+	rootDirectory, _ := filepath.Abs(filepath.Dir("."))
+	return filepath.Join(rootDirectory, "config", env+".yaml")
 }

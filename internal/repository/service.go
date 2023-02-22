@@ -3,23 +3,19 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
+	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/model"
 	"github.com/marktrs/gitsast/internal/queue"
 	"github.com/marktrs/gitsast/internal/queue/task/analyzer"
 )
 
+// IService variable that does static check to make sure that 'service' struct implements 'IService' interface.
 var _ IService = (*service)(nil)
-
-var (
-	ErrReportInProgress = errors.New(
-		`the report for this repository already initialized, only completed/failed report can retry`)
-)
 
 // IService defines methods for business logic of repository domain
 // such as validate request body, enqueue analyzing task, CRUD repository or report
@@ -34,6 +30,8 @@ type IService interface {
 }
 
 type service struct {
+	app *app.App
+
 	repo      model.IRepositoryRepo
 	report    model.IReportRepo
 	queue     queue.Handler
@@ -50,12 +48,11 @@ type UpdateRepositoryRequest struct {
 	RemoteURL string `json:"remote_url"`
 }
 
-func NewService(v *validator.Validate, q queue.Handler, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
+func NewService(app *app.App, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
 	return &service{
-		repo:      rs,
-		report:    rp,
-		validator: v,
-		queue:     q,
+		app:    app,
+		repo:   rs,
+		report: rp,
 	}
 }
 
@@ -126,7 +123,7 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	// if report exist
 	if report != nil {
 		if report.Status != model.StatusSuccess && report.Status != model.StatusFailed {
-			return nil, ErrReportInProgress
+			return nil, model.ErrReportInProgress
 		}
 	}
 
@@ -146,6 +143,7 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	}
 	log.Infof("created a new report with id: %s", report.ID)
 
+	// enqueue a new analyzing task to main queue
 	s.queue.AddTask(
 		analyzer.Task.WithArgs(ctx, report.ID))
 	if err != nil {

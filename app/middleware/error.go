@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/gommon/log"
-	"github.com/marktrs/gitsast/internal/repository"
+	"github.com/marktrs/gitsast/internal/model"
 	"github.com/uptrace/bunrouter"
 )
 
@@ -59,7 +59,7 @@ func NewHTTPError(err error) HTTPError {
 			Code:       "not_found",
 			Message:    "Row not found",
 		}
-	case repository.ErrReportInProgress:
+	case model.ErrReportInProgress:
 		return HTTPError{
 			statusCode: http.StatusForbidden,
 			Code:       "in_progress",

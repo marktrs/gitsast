@@ -6,7 +6,7 @@ import (
 	"github.com/uptrace/bunrouter"
 )
 
-func CorsMiddleware(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
+func Cors(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 	return func(w http.ResponseWriter, req bunrouter.Request) error {
 		origin := req.Header.Get("Origin")
 		if origin == "" {

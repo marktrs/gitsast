@@ -2,7 +2,6 @@ package analyzer
 
 import (
 	"context"
-	"database/sql"
 	"io"
 	"os"
 	"path"
@@ -17,12 +16,9 @@ import (
 	"github.com/h2non/filetype"
 
 	"github.com/labstack/gommon/log"
-	"github.com/marktrs/gitsast/internal/config"
+	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/model"
 	ahocorasick "github.com/petar-dambovaliev/aho-corasick"
-	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/dialect/pgdialect"
-	"github.com/uptrace/bun/driver/pgdriver"
 	"github.com/vmihailenco/taskq/v3"
 )
 
@@ -34,8 +30,8 @@ var cloneLocationPrefix = "temp/"
 var (
 	Task = taskq.RegisterTask(&taskq.TaskOptions{
 		Name: "analyzer",
-		Handler: func(id string) error {
-			return NewAnalyzer().Analyze(id)
+		Handler: func(app *app.App, id string) error {
+			return NewAnalyzer(app).Analyze(id)
 		},
 	})
 )
@@ -52,17 +48,9 @@ type Analyzer struct {
 }
 
 // NewAnalyzeTask - create new analyze task
-func NewAnalyzer() IAnalyzeTask {
-	// TODO: don't reload config here
-	// load app config
-	cfg, err := config.Load("./config/local.yaml")
-	if err != nil {
-		log.Error(err)
-		os.Exit(1)
-	}
-
+func NewAnalyzer(app *app.App) IAnalyzeTask {
 	// connect db
-	db := bun.NewDB(sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(cfg.DB.Dsn))), pgdialect.New())
+	db := app.DB()
 	repo := model.NewRepositoryRepo(db)
 	report := model.NewReportRepo(db)
 	rule := model.NewRuleRepo(db)
