@@ -1,6 +1,8 @@
 package app
 
 import (
+	"net/http"
+
 	"github.com/marktrs/gitsast/app/middleware"
 	"github.com/uptrace/bunrouter"
 )
@@ -13,6 +15,14 @@ func (app *App) initRouter() {
 		bunrouter.Use(middleware.ErrorHandler),
 	)
 
+	r.GET("/health", Check)
+
 	app.apiRouter = r.NewGroup("/api").NewGroup("/v1")
 	app.router = r
+}
+
+func Check(w http.ResponseWriter, req bunrouter.Request) error {
+	return bunrouter.JSON(w, bunrouter.H{
+		"status": "ok",
+	})
 }
