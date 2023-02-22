@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/marktrs/gitsast/app"
 	"github.com/uptrace/bun"
 )
 
@@ -29,18 +30,18 @@ type IRepositoryRepo interface {
 }
 
 type RepositoryRepo struct {
-	db *bun.DB
+	app *app.App
 }
 
 // NewRepositoryRepo returns a new instance of RepositoryRepo.
-func NewRepositoryRepo(db *bun.DB) IRepositoryRepo {
-	return &RepositoryRepo{db}
+func NewRepositoryRepo(app *app.App) IRepositoryRepo {
+	return &RepositoryRepo{app}
 }
 
 // GetById - returns a repository by id.
 func (r *RepositoryRepo) GetById(ctx context.Context, id string) (*Repository, error) {
 	repo := &Repository{}
-	err := r.db.NewSelect().Model(repo).Where("id = ?", id).Scan(ctx)
+	err := r.app.DB().NewSelect().Model(repo).Where("id = ?", id).Scan(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +52,7 @@ func (r *RepositoryRepo) GetById(ctx context.Context, id string) (*Repository, e
 // List - returns a list of repositories.
 func (r *RepositoryRepo) List(ctx context.Context, f *RepositoryFilter) ([]*Repository, error) {
 	repos := []*Repository{}
-	err := r.db.NewSelect().
+	err := r.app.DB().NewSelect().
 		Model(&repos).
 		Apply(f.query).
 		Limit(f.Limit).
@@ -66,7 +67,7 @@ func (r *RepositoryRepo) List(ctx context.Context, f *RepositoryFilter) ([]*Repo
 
 // Add - adds a new repository.
 func (r *RepositoryRepo) Add(ctx context.Context, repo *Repository) (*Repository, error) {
-	_, err := r.db.NewInsert().Model(repo).Exec(ctx)
+	_, err := r.app.DB().NewInsert().Model(repo).Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +77,7 @@ func (r *RepositoryRepo) Add(ctx context.Context, repo *Repository) (*Repository
 
 // Update - updates a repository.
 func (r *RepositoryRepo) Update(ctx context.Context, id string, repo map[string]interface{}) error {
-	_, err := r.db.NewUpdate().
+	_, err := r.app.DB().NewUpdate().
 		Model(&repo).
 		TableExpr("repositories").
 		Where("id = ?", id).
@@ -91,7 +92,7 @@ func (r *RepositoryRepo) Update(ctx context.Context, id string, repo map[string]
 
 // Remove - removes a repository.
 func (r *RepositoryRepo) Remove(ctx context.Context, id string) error {
-	_, err := r.db.NewDelete().
+	_, err := r.app.DB().NewDelete().
 		Model((*Repository)(nil)).
 		Where("id = ?", id).
 		Exec(ctx)

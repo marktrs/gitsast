@@ -10,7 +10,7 @@ import (
 	"github.com/uptrace/bunrouter"
 )
 
-// // HTTPHandler variable that does static check to make sure that httpHandler struct implements HTTPHandler interface.
+// HTTPHandler variable that does static check to make sure that httpHandler struct implements HTTPHandler interface.
 var _ HTTPHandler = (*httpHandler)(nil)
 
 var (

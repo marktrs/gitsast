@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/marktrs/gitsast/app"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 )
@@ -44,16 +45,16 @@ type IReportRepo interface {
 }
 
 type ReportRepo struct {
-	db *bun.DB
+	app *app.App
 }
 
-func NewReportRepo(db *bun.DB) IReportRepo {
-	return &ReportRepo{db}
+func NewReportRepo(app *app.App) IReportRepo {
+	return &ReportRepo{app}
 }
 
 func (r *ReportRepo) GetById(ctx context.Context, id string) (*Report, error) {
 	report := &Report{}
-	err := r.db.NewSelect().Model(report).
+	err := r.app.DB().NewSelect().Model(report).
 		Where("id = ?", id).
 		Limit(1).
 		Scan(ctx)
@@ -66,7 +67,7 @@ func (r *ReportRepo) GetById(ctx context.Context, id string) (*Report, error) {
 
 func (r *ReportRepo) GetByRepoId(ctx context.Context, id string) (*Report, error) {
 	report := &Report{}
-	err := r.db.NewSelect().Model(report).
+	err := r.app.DB().NewSelect().Model(report).
 		Where("repository_id = ?", id).
 		Limit(1).
 		Scan(ctx)
@@ -78,7 +79,7 @@ func (r *ReportRepo) GetByRepoId(ctx context.Context, id string) (*Report, error
 }
 
 func (r *ReportRepo) Add(ctx context.Context, report *Report) (*Report, error) {
-	_, err := r.db.NewInsert().Model(report).Exec(ctx)
+	_, err := r.app.DB().NewInsert().Model(report).Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +88,7 @@ func (r *ReportRepo) Add(ctx context.Context, report *Report) (*Report, error) {
 }
 
 func (r *ReportRepo) Update(ctx context.Context, report *Report) (*Report, error) {
-	_, err := r.db.NewUpdate().Model(report).WherePK().Exec(ctx)
+	_, err := r.app.DB().NewUpdate().Model(report).WherePK().Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +99,7 @@ func (r *ReportRepo) Update(ctx context.Context, report *Report) (*Report, error
 // GetReportIssues - get all issues for report
 func (r *ReportRepo) GetIssues(ctx context.Context, reportID string) ([]*Issue, error) {
 	var issues []*Issue
-	err := r.db.NewSelect().
+	err := r.app.DB().NewSelect().
 		Model((*Report)(nil)).
 		ColumnExpr("issues").
 		Where("id = ?", reportID).

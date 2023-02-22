@@ -73,4 +73,3 @@ func (h *handler) StartConsumer() error {
 
 	return nil
 }
-
