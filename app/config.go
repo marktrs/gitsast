@@ -1,19 +1,38 @@
 package app
 
 import (
+	"embed"
 	"errors"
-	"os"
+	"io/fs"
+	"path"
+	"sync"
 	"time"
 
-	"github.com/labstack/gommon/log"
 	"gopkg.in/yaml.v3"
 )
 
+var (
+	//go:embed embed
+	embedFS      embed.FS
+	unwrapFSOnce sync.Once
+	unwrappedFS  fs.FS
+)
+
+func FS() fs.FS {
+	unwrapFSOnce.Do(func() {
+		fsys, err := fs.Sub(embedFS, "embed")
+		if err != nil {
+			panic(err)
+		}
+		unwrappedFS = fsys
+	})
+	return unwrappedFS
+}
+
 // Config holds data for application configuration
 type AppConfig struct {
-	ConfigPath string
-	Server     *Server   `yaml:"server,omitempty"`
-	DB         *Database `yaml:"database,omitempty"`
+	Server *Server   `yaml:"server,omitempty"`
+	DB     *Database `yaml:"database,omitempty"`
 
 	Debug bool `yaml:"debug,omitempty"`
 	Env   bool `yaml:"env,omitempty"`
@@ -36,20 +55,16 @@ type Server struct {
 }
 
 // Load returns config from yaml and environment variables.
-func LoadConfigFile(file string) (*AppConfig, error) {
-	log.Infof("loading config file : %s \n", file)
-
+func LoadConfigFile(fsys fs.FS, service, env string) (*AppConfig, error) {
 	// default config
 	var c AppConfig
 
 	// load from YAML config file
-	if rawcfg, err := os.ReadFile(file); err == nil {
+	if rawcfg, err := fs.ReadFile(fsys, path.Join("config", env+".yaml")); err == nil {
 		if err := yaml.Unmarshal(rawcfg, &c); err != nil {
-			log.Errorf("error on json marshall of config file : %s", file)
 			return nil, err
 		}
 	} else {
-		log.Errorf("error reading config file : %s", file)
 		return nil, err
 	}
 

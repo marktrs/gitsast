@@ -72,17 +72,19 @@ func New(ctx context.Context, cfg *AppConfig) *App {
 }
 
 func StartFromCLI(c *cli.Context) (context.Context, *App, error) {
-	return Start(c.Context, c.Command.Name, c.String("env"), c.String("config"))
+	return Start(c.Context, c.Command.Name, c.String("env"))
 }
 
-func Start(ctx context.Context, service, envName, configPath string) (context.Context, *App, error) {
-	cfg, err := LoadConfigFile(configPath)
+func (app *App) SetClock(clock clock.Clock) {
+	app.clock = clock
+}
+
+func Start(ctx context.Context, service, envName string) (context.Context, *App, error) {
+	cfg, err := LoadConfigFile(FS(), service, envName)
 	if err != nil {
 		_, _ = os.Stderr.WriteString(err.Error())
 		os.Exit(1)
 	}
-
-	cfg.ConfigPath = configPath
 
 	return StartWithConfig(ctx, cfg)
 }
@@ -178,4 +180,8 @@ func (app *App) IsDebug() bool {
 
 func (app *App) Validator() *validator.Validate {
 	return app.validator
+}
+
+func (app *App) SetQueue(q queue.Handler) {
+	app.queue = q
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"os"
 	"path"
-	"path/filepath"
 	"time"
 
 	"github.com/labstack/gommon/log"
@@ -22,7 +21,7 @@ var (
 	Task = taskq.RegisterTask(&taskq.TaskOptions{
 		Name: "analyzer",
 		Handler: func(configPath, id string) error {
-			a, err := NewAnalyzer(configPath)
+			a, err := NewAnalyzer()
 			if err != nil {
 				return err
 			}
@@ -45,13 +44,9 @@ type Analyzer struct {
 }
 
 // NewAnalyzeTask - create new analyze task
-func NewAnalyzer(configPath string) (IAnalyzeTask, error) {
-	rootDir, err := filepath.Abs(filepath.Dir("."))
-	if err != nil {
-		return nil, err
-	}
+func NewAnalyzer() (IAnalyzeTask, error) {
 
-	_, app, err := app.Start(context.Background(), "analyzerTask", "", filepath.Join(rootDir, configPath))
+	_, app, err := app.Start(context.Background(), "analyzerTask", "")
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +95,7 @@ func (t *Analyzer) Analyze(reportId string) error {
 	if err != nil {
 		return t.handleFailedTask(report, err)
 	}
-	defer t.removeTempDir(tmpDir)
+	defer t.removeTempDirPrefix(tmpDir)
 
 	log.Infof("scanning files for issues url=%s", repo.RemoteURL)
 	issues, err := t.scanFilesForIssues(repo.ID, paths, rules)
@@ -122,7 +117,7 @@ func (t *Analyzer) Analyze(reportId string) error {
 }
 
 // removeTempDir - remove cloned repo directory
-func (t *Analyzer) removeTempDir(tmpDir string) error {
+func (t *Analyzer) removeTempDirPrefix(tmpDir string) error {
 	if err := os.RemoveAll(tmpDir); err != nil {
 		log.Error(err)
 		return err

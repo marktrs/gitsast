@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"regexp"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -40,21 +41,30 @@ type service struct {
 
 type AddRepositoryRequest struct {
 	Name      string `json:"name" validate:"required,max=120"`
-	RemoteURL string `json:"remote_url" validate:"required,max=120"`
+	RemoteURL string `json:"remote_url" validate:"required,max=120,git-remote-url"`
+}
+
+func (r *AddRepositoryRequest) Validate(validator *validator.Validate) error {
+	return validator.Struct(r)
 }
 
 type UpdateRepositoryRequest struct {
-	Name      string `json:"name"`
-	RemoteURL string `json:"remote_url"`
+	Name      string `json:"name" validate:"max=120"`
+	RemoteURL string `json:"remote_url" validate:"max=120,git-remote-url"`
+}
+
+func (r *UpdateRepositoryRequest) Validate(validator *validator.Validate) error {
+	return validator.Struct(r)
 }
 
 func NewService(app *app.App, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
+	app.Validator().RegisterValidation("git-remote-url", ValidateGitRemoteURL)
 	return &service{
 		app:       app,
 		repo:      rs,
 		report:    rp,
-		validator: app.Validator(),
 		queue:     app.Queue(),
+		validator: app.Validator(),
 	}
 }
 
@@ -71,7 +81,7 @@ func (s *service) List(ctx context.Context, f *model.RepositoryFilter) ([]*model
 // Add implements IService.Add interface.
 func (s *service) Add(ctx context.Context, req *AddRepositoryRequest) (*model.Repository, error) {
 	// validate request body
-	if err := s.validator.Struct(req); err != nil {
+	if err := req.Validate(s.validator); err != nil {
 		log.Errorf("Request validation failed on add repository handler : %s", err.Error())
 		return nil, err
 	}
@@ -86,10 +96,13 @@ func (s *service) Add(ctx context.Context, req *AddRepositoryRequest) (*model.Re
 }
 
 // Update implements IService.Update interface.
-func (s *service) Update(ctx context.Context, id string, req *UpdateRepositoryRequest,
+func (s *service) Update(
+	ctx context.Context,
+	id string,
+	req *UpdateRepositoryRequest,
 ) error {
 	// validate request body
-	if err := s.validator.Struct(req); err != nil {
+	if err := req.Validate(s.validator); err != nil {
 		log.Errorf("Request validation failed on update repository handler : %s", err.Error())
 		return err
 	}
@@ -143,15 +156,12 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("created a new report with id: %s", report.ID)
 
 	// enqueue a new analyzing task to main queue
-	s.queue.AddTask(
-		analyzer.Task.WithArgs(ctx, s.app.Config().ConfigPath ,report.ID))
+	err = s.queue.AddTask(analyzer.Task.WithArgs(ctx, report.ID))
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("enqueued a new report with id: %s", report.ID)
 
 	report.Status = model.StatusEnqueued
 	report.EnqueueAt = time.Now()
@@ -167,4 +177,16 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 // GetReport - Implements IService.GetReport interface.
 func (s *service) GetReportByRepoId(ctx context.Context, id string) (*model.Report, error) {
 	return s.report.GetByRepoId(ctx, id)
+}
+
+func ValidateGitRemoteURL(fl validator.FieldLevel) bool {
+	url := fl.Field().String()
+	if url == "" {
+		return false
+	}
+
+	re := regexp.MustCompile(`(?P<Protocol>git@|http(s)?:\/\/)(.+@)*(?P<Provider>[\w\d\.-]+)(:[\d]+){0,1}(\/scm)?\/*(?P<Name>.*)`)
+	matches := re.FindStringSubmatch(url)
+
+	return len(matches) != 0
 }

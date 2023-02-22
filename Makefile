@@ -19,3 +19,20 @@ build-all: clean
 
 deps-cleancache:
 	go clean -modcache
+
+mock:
+	mockgen -source=internal/repository/service.go \
+		-package testutil \
+		-destination=testutil/mocks/repository/service.go
+	mockgen -source=internal/model/repository.go \
+		-package testutil \
+		-destination=testutil/mocks/model/repository.go
+	mockgen -source=internal/model/report.go \
+		-package testutil \
+		-destination=testutil/mocks/model/report.go
+	mockgen -source=internal/model/rule.go \
+		-package testutil \
+		-destination=testutil/mocks/model/rule.go
+	mockgen -source=internal/queue/handler.go \
+		-package testutil \
+		-destination=testutil/mocks/queue/handler.go

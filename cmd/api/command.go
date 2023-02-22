@@ -54,10 +54,7 @@ func NewAPICommand() *cli.Command {
 					log.Printf("ListenAndServe failed: %s", err)
 				}
 			}()
-
-			log.Printf("listening on %s", srv.Addr)
 			app.WaitExitSignal()
-
 			return srv.Shutdown(ctx)
 		},
 	}
