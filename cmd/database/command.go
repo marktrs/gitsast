@@ -9,6 +9,13 @@ func NewDBCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "db",
 		Usage: "manage database migrations",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "config",
+				Value: "./config/dev.yaml",
+				Usage: "path to environment config file",
+			},
+		},
 		Subcommands: []*cli.Command{
 			{
 				Name:  "init",

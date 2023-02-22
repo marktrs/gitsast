@@ -73,6 +73,7 @@ func (m *dbMigrator) DropTable() error {
 
 // createTablesIfNotExist - Iterate through the list of model to create new tables if doesn't exist
 func (m *dbMigrator) CreateTablesIfNotExist() error {
+	log.Info("creating tables if not exist")
 	for _, model := range m.models {
 		_, err := m.db.NewCreateTable().
 			Model(model).
@@ -83,11 +84,12 @@ func (m *dbMigrator) CreateTablesIfNotExist() error {
 			return err
 		}
 	}
-
+	log.Info("created tables")
 	return nil
 }
 
 func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
+	log.Info("initializing rules")
 	rules := []*model.Rule{
 		{
 			ID:          1,
@@ -133,6 +135,8 @@ func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
 			log.Error(err)
 			return err
 		}
+
+		log.Info("initialized rules")
 
 		return nil
 	})
