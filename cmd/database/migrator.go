@@ -1,4 +1,4 @@
-package postgres
+package database
 
 import (
 	"context"
@@ -13,52 +13,37 @@ import (
 type dbMigrator struct {
 	migrations *migrate.Migrations
 	db         *bun.DB
+	models     []interface{}
 }
 
 func NewDBMigrator(db *bun.DB) *dbMigrator {
-	return &dbMigrator{
-		migrations: migrate.NewMigrations(),
-		db:         db,
-	}
-}
-
-// Migrate - start db migration with list of models
-func (m *dbMigrator) Migrate() error {
-	log.Info("starting db migration")
-
-	// add a new model to migrate here
 	models := []interface{}{
 		(*model.Rule)(nil),
 		(*model.Report)(nil),
 		(*model.Repository)(nil),
 	}
 
-	if err := m.resetTable(models); err != nil {
+	return &dbMigrator{
+		migrations: migrate.NewMigrations(),
+		db:         db,
+		models:     models,
+	}
+}
+
+// Migrate - start db migration with list of models
+func (m *dbMigrator) Migrate() error {
+	log.Info("starting db migration")
+	if err := m.DropTable(); err != nil {
 		log.Error(err)
 		return err
 	}
 
-	if err := m.createTablesIfNotExist(models); err != nil {
+	if err := m.CreateTablesIfNotExist(); err != nil {
 		log.Error(err)
 		return err
 	}
 
-	if err := m.insertInitialRulesIfNotExist([]*model.Rule{
-		{
-			ID:          1,
-			Name:        "Public key leak",
-			Description: "A secret starts with the prefix public_key",
-			Keyword:     "public_key",
-			Severity:    model.Low,
-		},
-		{
-			ID:          2,
-			Name:        "Private key leak",
-			Description: "A secret starts with the prefix private_key",
-			Keyword:     "private_key",
-			Severity:    model.High,
-		},
-	}); err != nil {
+	if err := m.InsertInitialRulesIfNotExist(); err != nil {
 		log.Error(err)
 		return err
 	}
@@ -68,10 +53,10 @@ func (m *dbMigrator) Migrate() error {
 }
 
 // ResetTable - reset table
-func (m *dbMigrator) resetTable(models []interface{}) error {
+func (m *dbMigrator) DropTable() error {
 	log.Info("resetting table")
 
-	for _, model := range models {
+	for _, model := range m.models {
 		_, err := m.db.NewDropTable().
 			Model(model).
 			IfExists().
@@ -87,8 +72,8 @@ func (m *dbMigrator) resetTable(models []interface{}) error {
 }
 
 // createTablesIfNotExist - Iterate through the list of model to create new tables if doesn't exist
-func (m *dbMigrator) createTablesIfNotExist(models []interface{}) error {
-	for _, model := range models {
+func (m *dbMigrator) CreateTablesIfNotExist() error {
+	for _, model := range m.models {
 		_, err := m.db.NewCreateTable().
 			Model(model).
 			IfNotExists().
@@ -102,7 +87,24 @@ func (m *dbMigrator) createTablesIfNotExist(models []interface{}) error {
 	return nil
 }
 
-func (m *dbMigrator) insertInitialRulesIfNotExist(rules []*model.Rule) error {
+func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
+	rules := []*model.Rule{
+		{
+			ID:          1,
+			Name:        "Public key leak",
+			Description: "A secret starts with the prefix public_key",
+			Keyword:     "public_key",
+			Severity:    model.Low,
+		},
+		{
+			ID:          2,
+			Name:        "Private key leak",
+			Description: "A secret starts with the prefix private_key",
+			Keyword:     "private_key",
+			Severity:    model.High,
+		},
+	}
+
 	keywords := make([]string, len(rules))
 	for i, rule := range rules {
 		keywords[i] = rule.Keyword
