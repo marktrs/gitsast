@@ -71,24 +71,23 @@ func New(ctx context.Context, cfg *AppConfig) *App {
 	return app
 }
 
-func Start(c *cli.Context) (context.Context, *App, error) {
-	return start(c.Context, c.Command.Name, c.String("env"), c.String("config"))
+func StartFromCLI(c *cli.Context) (context.Context, *App, error) {
+	return Start(c.Context, c.Command.Name, c.String("env"), c.String("config"))
 }
 
-func start(ctx context.Context, service, envName, configPath string) (context.Context, *App, error) {
-	if configPath == "" {
-		configPath = DefaultConfigPath(envName)
-	}
-
+func Start(ctx context.Context, service, envName, configPath string) (context.Context, *App, error) {
 	cfg, err := LoadConfigFile(configPath)
 	if err != nil {
 		_, _ = os.Stderr.WriteString(err.Error())
 		os.Exit(1)
 	}
-	return StartConfig(ctx, cfg)
+
+	cfg.ConfigPath = configPath
+
+	return StartWithConfig(ctx, cfg)
 }
 
-func StartConfig(ctx context.Context, cfg *AppConfig) (context.Context, *App, error) {
+func StartWithConfig(ctx context.Context, cfg *AppConfig) (context.Context, *App, error) {
 	app := New(ctx, cfg)
 	if err := onStart.Run(ctx, app); err != nil {
 		return nil, nil, err
@@ -109,7 +108,11 @@ func WaitExitSignal() os.Signal {
 
 func (app *App) DB() *bun.DB {
 	app.dbOnce.Do(func() {
-		db := bun.NewDB(sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(app.cfg.DB.DSN))), pgdialect.New())
+		db := bun.NewDB(sql.OpenDB(
+			pgdriver.NewConnector(pgdriver.WithDSN(app.cfg.DB.DSN))),
+			pgdialect.New(),
+		)
+
 		db.AddQueryHook(bundebug.NewQueryHook(
 			bundebug.WithEnabled(app.IsDebug()),
 			bundebug.FromEnv(""),
@@ -171,4 +174,8 @@ func (app *App) APIRouter() *bunrouter.Group {
 
 func (app *App) IsDebug() bool {
 	return app.cfg.Debug
+}
+
+func (app *App) Validator() *validator.Validate {
+	return app.validator
 }

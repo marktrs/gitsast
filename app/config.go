@@ -3,7 +3,6 @@ package app
 import (
 	"errors"
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/labstack/gommon/log"
@@ -12,8 +11,9 @@ import (
 
 // Config holds data for application configuration
 type AppConfig struct {
-	Server *Server   `yaml:"server,omitempty"`
-	DB     *Database `yaml:"database,omitempty"`
+	ConfigPath string
+	Server     *Server   `yaml:"server,omitempty"`
+	DB         *Database `yaml:"database,omitempty"`
 
 	Debug bool `yaml:"debug,omitempty"`
 	Env   bool `yaml:"env,omitempty"`
@@ -59,9 +59,4 @@ func LoadConfigFile(file string) (*AppConfig, error) {
 	}
 
 	return &c, nil
-}
-
-func DefaultConfigPath(env string) string {
-	rootDirectory, _ := filepath.Abs(filepath.Dir("."))
-	return filepath.Join(rootDirectory, "config", env+".yaml")
 }

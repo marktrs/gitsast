@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 
+	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/model"
 	"github.com/uptrace/bunrouter"
@@ -10,8 +11,9 @@ import (
 
 func init() {
 	app.OnStart("repository.initRoutes", func(ctx context.Context, app *app.App) error {
-		rs := model.NewRepositoryRepo(app.DB())
-		rp := model.NewReportRepo(app.DB())
+		log.Info("initializing repository routes")
+		rs := model.NewRepositoryRepo(app)
+		rp := model.NewReportRepo(app)
 		s := NewService(app, rs, rp)
 		h := NewHTTPHandler(s)
 

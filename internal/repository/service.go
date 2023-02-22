@@ -50,9 +50,11 @@ type UpdateRepositoryRequest struct {
 
 func NewService(app *app.App, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
 	return &service{
-		app:    app,
-		repo:   rs,
-		report: rp,
+		app:       app,
+		repo:      rs,
+		report:    rp,
+		validator: app.Validator(),
+		queue:     app.Queue(),
 	}
 }
 
@@ -145,7 +147,7 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 
 	// enqueue a new analyzing task to main queue
 	s.queue.AddTask(
-		analyzer.Task.WithArgs(ctx, report.ID))
+		analyzer.Task.WithArgs(ctx, s.app.Config().ConfigPath ,report.ID))
 	if err != nil {
 		return nil, err
 	}
