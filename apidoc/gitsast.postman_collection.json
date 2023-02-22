@@ -1,0 +1,713 @@
+{
+	"info": {
+		"_postman_id": "470af532-cd19-4e45-af10-1b2fb9e2da22",
+		"name": "gitsast",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1894073"
+	},
+	"item": [
+		{
+			"name": "add repository",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    ",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"repo_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add repository",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"reiciendis\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 04:59:45 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "213"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n    \"name\": \"atque\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\",\n    \"created_at\": \"2023-02-22T04:59:45.723021Z\",\n    \"updated_at\": \"2023-02-22T04:59:45.723021Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "list repository",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "quo",
+							"disabled": true
+						},
+						{
+							"key": "remote_url",
+							"value": "github.com/Alexandrine_Waters/dolor-aliquam-minus",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "offset",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "list repository",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "quo",
+									"disabled": true
+								},
+								{
+									"key": "remote_url",
+									"value": "github.com/Alexandrine_Waters/dolor-aliquam-minus",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 05:00:17 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "678"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"repositories\": [\n        {\n            \"id\": \"7e898d91-0cf8-4c03-a7ec-67f2f0a0f034\",\n            \"name\": \"voluptatibus\",\n            \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\",\n            \"created_at\": \"2023-02-22T04:58:59.794583Z\",\n            \"updated_at\": \"2023-02-22T04:58:59.794583Z\"\n        },\n        {\n            \"id\": \"235025e4-73d7-4294-8ecd-06d9a71d2015\",\n            \"name\": \"expedita\",\n            \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\",\n            \"created_at\": \"2023-02-22T04:59:31.941957Z\",\n            \"updated_at\": \"2023-02-22T04:59:31.941957Z\"\n        },\n        {\n            \"id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n            \"name\": \"atque\",\n            \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\",\n            \"created_at\": \"2023-02-22T04:59:45.723021Z\",\n            \"updated_at\": \"2023-02-22T04:59:45.723021Z\"\n        }\n    ],\n    \"total\": 3\n}"
+				}
+			]
+		},
+		{
+			"name": "get repository by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{repo_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get repository by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 05:00:34 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "213"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n    \"name\": \"atque\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\",\n    \"created_at\": \"2023-02-22T04:59:45.723021Z\",\n    \"updated_at\": \"2023-02-22T04:59:45.723021Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "remove repository by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{repo_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "remove repository by ID",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 05:01:14 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "update repository by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"github.com/{{$randomUserName}}/{{$randomLoremSlug}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{repo_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "update repository by ID",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"praesentium\",\n    \"remote_url\": \"github.com/Maia_Bergstrom/rerum-alias-dolore\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 05:00:46 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "trigger  repository scan by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository/:id/scan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						":id",
+						"scan"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{repo_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "trigger  repository scan by ID",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository/:id/scan",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository",
+								":id",
+								"scan"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 04:59:58 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "338"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"62b8b624-4588-4f83-8d61-87bc3a560276\",\n    \"repository_id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n    \"status\": \"enqueued\",\n    \"created_at\": \"2023-02-22T11:59:58.935452+07:00\",\n    \"updated_at\": \"2023-02-22T11:59:58.935452+07:00\",\n    \"enqueue_at\": \"2023-02-22T11:59:58.938824+07:00\",\n    \"started_at\": \"0001-01-01T00:00:00Z\",\n    \"finished_at\": \"0001-01-01T00:00:00Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get report by repository ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/repository/:id/report",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"repository",
+						":id",
+						"report"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{repo_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get report by repository ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/v1/repository/:id/report",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"repository",
+								":id",
+								"report"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Feb 2023 05:00:07 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"62b8b624-4588-4f83-8d61-87bc3a560276\",\n    \"repository_id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n    \"status\": \"success\",\n    \"created_at\": \"2023-02-22T04:59:58.935452Z\",\n    \"updated_at\": \"2023-02-22T04:59:59.648372Z\",\n    \"enqueue_at\": \"2023-02-22T04:59:58.938824Z\",\n    \"started_at\": \"2023-02-22T04:59:58.969337Z\",\n    \"finished_at\": \"2023-02-22T04:59:59.648372Z\",\n    \"issues\": [\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse.go\",\n                \"line\": 13\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 66\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 67\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 68\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 69\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 70\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 71\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 72\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 73\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 74\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 75\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 76\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 77\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 78\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 37\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 49\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 32\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 39\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 47\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 51\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 32\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 39\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 47\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 51\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "repo_id",
+			"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+		},
+		{
+			"key": "repo_id",
+			"value": ""
+		}
+	]
+}
