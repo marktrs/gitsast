@@ -46,9 +46,7 @@ func (h *httpHandler) GetById(w http.ResponseWriter, req bunrouter.Request) erro
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Err(ErrInvalidParam).
-			Any("params", req.Params().Map()).
-			Msg("unable to get report by repo ID")
+		log.Err(ErrInvalidParam).Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -104,9 +102,7 @@ func (h *httpHandler) Update(w http.ResponseWriter, req bunrouter.Request) error
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Err(ErrInvalidParam).
-			Any("params", req.Params().Map()).
-			Msg("unable to get report by repo ID")
+		log.Err(ErrInvalidParam).Msg("unable to update by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -130,9 +126,7 @@ func (h *httpHandler) Remove(w http.ResponseWriter, req bunrouter.Request) error
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Err(ErrInvalidParam).
-			Any("params", req.Params().Map()).
-			Msg("unable to get report by repo ID")
+		log.Err(ErrInvalidParam).Msg("unable to remove by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -147,9 +141,7 @@ func (h *httpHandler) Scan(w http.ResponseWriter, req bunrouter.Request) error {
 
 	id, ok := params["id"]
 	if !ok {
-		log.Err(ErrInvalidParam).
-			Any("params", req.Params().Map()).
-			Msg("unable to get report by repo ID")
+		log.Err(ErrInvalidParam).Msg("unable to scan by repo ID")
 		return ErrInvalidParam
 	}
 
