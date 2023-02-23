@@ -34,15 +34,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -122,15 +117,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -242,15 +232,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository/:id",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -332,15 +317,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository/:id",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -431,15 +411,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository/:id",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository/:id",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -530,15 +505,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository/:id/scan",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository/:id/scan",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -622,15 +592,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/v1/repository/:id/report",
-					"protocol": "http",
+					"raw": "{{domain}}/api/v1/repository/:id/report",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -705,15 +670,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/health",
-					"protocol": "http",
+					"raw": "{{domain}}/health",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"health"
 					]

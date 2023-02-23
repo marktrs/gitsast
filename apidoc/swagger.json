@@ -1,9 +1,7 @@
 {
   "swagger": "2.0",
   "info": { "contact": {}, "title": "gitsast", "version": "1.0.0" },
-  "host": "127.0.0.1",
-  "basePath": "/",
-  "schemes": ["http"],
+  "basePath": "%7B%7Bdomain%7D%7D",
   "paths": {
     "/api/v1/repository": {
       "get": {

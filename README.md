@@ -40,7 +40,7 @@ Tools :
 
 ## API Document
 
-Full API document can be found in /apidoc directory
+Full API document can be found in [/apidoc](https://github.com/marktrs/gitsast/tree/main/apidoc) directory
 
 ## Get Started
 
@@ -95,6 +95,7 @@ curl --location 'http://127.0.0.1:8080/api/v1/repository/98b57e1c-eb0f-40ea-a690
 ```
 
 ## Start API server and db migration with command
+
 ### Build GitSAST as an executable file
 
 > make build

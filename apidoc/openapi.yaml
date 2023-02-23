@@ -1,10 +1,10 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: gitsast
   version: 1.0.0
   contact: {}
 servers:
-  - url: http://127.0.0.1
+  - url: ''
 paths:
   /api/v1/repository:
     get:
@@ -26,24 +26,24 @@ paths:
           in: query
           schema:
             type: string
-            example: "2"
+            example: '2'
         - name: offset
           in: query
           schema:
             type: string
-            example: "1"
+            example: '1'
       requestBody:
         content:
           text/plain:
-            example: ""
+            example: ''
       responses:
-        "200":
+        '200':
           description: list repository
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "678"
+                example: '678'
             Date:
               schema:
                 type: string
@@ -60,7 +60,7 @@ paths:
                       properties:
                         created_at:
                           type: string
-                          example: "2023-02-22T04:58:59.794583Z"
+                          example: '2023-02-22T04:58:59.794583Z'
                         id:
                           type: string
                           example: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
@@ -72,23 +72,23 @@ paths:
                           example: https://github.com/mdlayher/wireguard_exporter.git
                         updated_at:
                           type: string
-                          example: "2023-02-22T04:58:59.794583Z"
+                          example: '2023-02-22T04:58:59.794583Z'
                     example:
-                      - created_at: "2023-02-22T04:58:59.794583Z"
+                      - created_at: '2023-02-22T04:58:59.794583Z'
                         id: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
                         name: voluptatibus
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:58:59.794583Z"
-                      - created_at: "2023-02-22T04:59:31.941957Z"
+                        updated_at: '2023-02-22T04:58:59.794583Z'
+                      - created_at: '2023-02-22T04:59:31.941957Z'
                         id: 235025e4-73d7-4294-8ecd-06d9a71d2015
                         name: expedita
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:59:31.941957Z"
-                      - created_at: "2023-02-22T04:59:45.723021Z"
+                        updated_at: '2023-02-22T04:59:31.941957Z'
+                      - created_at: '2023-02-22T04:59:45.723021Z'
                         id: bb42beea-4118-4885-8f88-f291aa0fe790
                         name: atque
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:59:45.723021Z"
+                        updated_at: '2023-02-22T04:59:45.723021Z'
                   total:
                     type: number
                     example: 3
@@ -96,21 +96,21 @@ paths:
                 list repository:
                   value:
                     repositories:
-                      - created_at: "2023-02-22T04:58:59.794583Z"
+                      - created_at: '2023-02-22T04:58:59.794583Z'
                         id: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
                         name: voluptatibus
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:58:59.794583Z"
-                      - created_at: "2023-02-22T04:59:31.941957Z"
+                        updated_at: '2023-02-22T04:58:59.794583Z'
+                      - created_at: '2023-02-22T04:59:31.941957Z'
                         id: 235025e4-73d7-4294-8ecd-06d9a71d2015
                         name: expedita
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:59:31.941957Z"
-                      - created_at: "2023-02-22T04:59:45.723021Z"
+                        updated_at: '2023-02-22T04:59:31.941957Z'
+                      - created_at: '2023-02-22T04:59:45.723021Z'
                         id: bb42beea-4118-4885-8f88-f291aa0fe790
                         name: atque
                         remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                        updated_at: "2023-02-22T04:59:45.723021Z"
+                        updated_at: '2023-02-22T04:59:45.723021Z'
                     total: 3
     post:
       summary: add repository
@@ -124,21 +124,21 @@ paths:
               properties:
                 name:
                   type: string
-                  example: ""
+                  example: ''
                 remote_url:
                   type: string
                   example: https://github.com/mdlayher/wireguard_exporter
             example:
-              name: ""
+              name: ''
               remote_url: https://github.com/mdlayher/wireguard_exporter
       responses:
-        "200":
+        '200':
           description: add repository
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "213"
+                example: '213'
             Date:
               schema:
                 type: string
@@ -150,7 +150,7 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    example: "2023-02-22T04:59:45.723021Z"
+                    example: '2023-02-22T04:59:45.723021Z'
                   id:
                     type: string
                     example: bb42beea-4118-4885-8f88-f291aa0fe790
@@ -162,28 +162,28 @@ paths:
                     example: https://github.com/mdlayher/wireguard_exporter.git
                   updated_at:
                     type: string
-                    example: "2023-02-22T04:59:45.723021Z"
+                    example: '2023-02-22T04:59:45.723021Z'
               examples:
                 add repository:
                   value:
-                    created_at: "2023-02-22T04:59:45.723021Z"
+                    created_at: '2023-02-22T04:59:45.723021Z'
                     id: bb42beea-4118-4885-8f88-f291aa0fe790
                     name: atque
                     remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                    updated_at: "2023-02-22T04:59:45.723021Z"
+                    updated_at: '2023-02-22T04:59:45.723021Z'
   /api/v1/repository/{id}:
     get:
       summary: get repository by ID
       description: get repository by ID
       operationId: getRepositoryById
       responses:
-        "200":
+        '200':
           description: get repository by ID
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "213"
+                example: '213'
             Date:
               schema:
                 type: string
@@ -195,7 +195,7 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    example: "2023-02-22T04:59:45.723021Z"
+                    example: '2023-02-22T04:59:45.723021Z'
                   id:
                     type: string
                     example: bb42beea-4118-4885-8f88-f291aa0fe790
@@ -207,15 +207,15 @@ paths:
                     example: https://github.com/mdlayher/wireguard_exporter.git
                   updated_at:
                     type: string
-                    example: "2023-02-22T04:59:45.723021Z"
+                    example: '2023-02-22T04:59:45.723021Z'
               examples:
                 get repository by ID:
                   value:
-                    created_at: "2023-02-22T04:59:45.723021Z"
+                    created_at: '2023-02-22T04:59:45.723021Z'
                     id: bb42beea-4118-4885-8f88-f291aa0fe790
                     name: atque
                     remote_url: https://github.com/mdlayher/wireguard_exporter.git
-                    updated_at: "2023-02-22T04:59:45.723021Z"
+                    updated_at: '2023-02-22T04:59:45.723021Z'
     put:
       summary: update repository by ID
       description: update repository by ID
@@ -228,21 +228,21 @@ paths:
               properties:
                 name:
                   type: string
-                  example: ""
+                  example: ''
                 remote_url:
                   type: string
                   example: github.com//
             example:
-              name: ""
+              name: ''
               remote_url: github.com//
       responses:
-        "200":
+        '200':
           description: update repository by ID
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "0"
+                example: '0'
             Date:
               schema:
                 type: string
@@ -255,15 +255,15 @@ paths:
       requestBody:
         content:
           text/plain:
-            example: ""
+            example: ''
       responses:
-        "200":
+        '200':
           description: remove repository by ID
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "0"
+                example: '0'
             Date:
               schema:
                 type: string
@@ -284,15 +284,15 @@ paths:
       requestBody:
         content:
           text/plain:
-            example: ""
+            example: ''
       responses:
-        "200":
+        '200':
           description: trigger  repository scan by ID
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "338"
+                example: '338'
             Date:
               schema:
                 type: string
@@ -304,13 +304,13 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    example: "2023-02-22T11:59:58.935452+07:00"
+                    example: '2023-02-22T11:59:58.935452+07:00'
                   enqueue_at:
                     type: string
-                    example: "2023-02-22T11:59:58.938824+07:00"
+                    example: '2023-02-22T11:59:58.938824+07:00'
                   finished_at:
                     type: string
-                    example: "0001-01-01T00:00:00Z"
+                    example: '0001-01-01T00:00:00Z'
                   id:
                     type: string
                     example: 62b8b624-4588-4f83-8d61-87bc3a560276
@@ -319,24 +319,24 @@ paths:
                     example: bb42beea-4118-4885-8f88-f291aa0fe790
                   started_at:
                     type: string
-                    example: "0001-01-01T00:00:00Z"
+                    example: '0001-01-01T00:00:00Z'
                   status:
                     type: string
                     example: enqueued
                   updated_at:
                     type: string
-                    example: "2023-02-22T11:59:58.935452+07:00"
+                    example: '2023-02-22T11:59:58.935452+07:00'
               examples:
                 trigger  repository scan by ID:
                   value:
-                    created_at: "2023-02-22T11:59:58.935452+07:00"
-                    enqueue_at: "2023-02-22T11:59:58.938824+07:00"
-                    finished_at: "0001-01-01T00:00:00Z"
+                    created_at: '2023-02-22T11:59:58.935452+07:00'
+                    enqueue_at: '2023-02-22T11:59:58.938824+07:00'
+                    finished_at: '0001-01-01T00:00:00Z'
                     id: 62b8b624-4588-4f83-8d61-87bc3a560276
                     repository_id: bb42beea-4118-4885-8f88-f291aa0fe790
-                    started_at: "0001-01-01T00:00:00Z"
+                    started_at: '0001-01-01T00:00:00Z'
                     status: enqueued
-                    updated_at: "2023-02-22T11:59:58.935452+07:00"
+                    updated_at: '2023-02-22T11:59:58.935452+07:00'
     parameters:
       - name: id
         in: path
@@ -350,7 +350,7 @@ paths:
       description: get report by repository ID
       operationId: getReportByRepositoryId
       responses:
-        "200":
+        '200':
           description: get report by repository ID
           headers:
             Date:
@@ -368,10 +368,10 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    example: "2023-02-23T15:14:05.673514Z"
+                    example: '2023-02-23T15:14:05.673514Z'
                   enqueue_at:
                     type: string
-                    example: "2023-02-23T15:14:05.6767Z"
+                    example: '2023-02-23T15:14:05.6767Z'
                   findings:
                     type: array
                     items:
@@ -650,7 +650,7 @@ paths:
                         type: sast
                   finished_at:
                     type: string
-                    example: "2023-02-23T15:14:07.121661Z"
+                    example: '2023-02-23T15:14:07.121661Z'
                   id:
                     type: string
                     example: 78589fe4-8365-4c86-9b78-3401ab7f35a3
@@ -659,18 +659,18 @@ paths:
                     example: 1336634e-73f4-438a-ab3a-152d52f071d9
                   started_at:
                     type: string
-                    example: "2023-02-23T15:14:05.691266Z"
+                    example: '2023-02-23T15:14:05.691266Z'
                   status:
                     type: string
                     example: success
                   updated_at:
                     type: string
-                    example: "2023-02-23T15:14:07.121661Z"
+                    example: '2023-02-23T15:14:07.121661Z'
               examples:
                 get report by repository ID:
                   value:
-                    created_at: "2023-02-23T15:14:05.673514Z"
-                    enqueue_at: "2023-02-23T15:14:05.6767Z"
+                    created_at: '2023-02-23T15:14:05.673514Z'
+                    enqueue_at: '2023-02-23T15:14:05.6767Z'
                     findings:
                       - location:
                           path: /parse.go
@@ -912,12 +912,12 @@ paths:
                           severity: LOW
                         ruleId: G001
                         type: sast
-                    finished_at: "2023-02-23T15:14:07.121661Z"
+                    finished_at: '2023-02-23T15:14:07.121661Z'
                     id: 78589fe4-8365-4c86-9b78-3401ab7f35a3
                     repository_id: 1336634e-73f4-438a-ab3a-152d52f071d9
-                    started_at: "2023-02-23T15:14:05.691266Z"
+                    started_at: '2023-02-23T15:14:05.691266Z'
                     status: success
-                    updated_at: "2023-02-23T15:14:07.121661Z"
+                    updated_at: '2023-02-23T15:14:07.121661Z'
     parameters:
       - name: id
         in: path
@@ -931,13 +931,13 @@ paths:
       description: health check
       operationId: healthCheck
       responses:
-        "200":
+        '200':
           description: health check
           headers:
             Content-Length:
               schema:
                 type: string
-                example: "16"
+                example: '16'
             Date:
               schema:
                 type: string
