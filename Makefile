@@ -20,6 +20,9 @@ build-all: clean
 deps-cleancache:
 	go clean -modcache
 
+test-coverage:
+	go test $(go list ./...) -race -covermode atomic -coverprofile=coverage.out ./...
+
 mock:
 	mockgen -source=internal/repository/service.go \
 		-package testutil \
