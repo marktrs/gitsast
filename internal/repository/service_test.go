@@ -106,7 +106,22 @@ func (suite *ServiceTestSuite) TestCreateReport() {
 }
 
 func (suite *ServiceTestSuite) TestGetReport() {
-	suite.report.EXPECT().GetByRepoId(gomock.Any(), gomock.Any()).Return(nil, nil)
+	report := &model.Report{
+		Issues: []*model.Issue{
+			{
+				RuleID: "G001",
+				Location: model.Location{
+					Path: "pub.key",
+					Line: 0,
+				},
+				Description: "Public key leak",
+				Severity:    "LOW",
+				Keyword:     `public_key`,
+			},
+		},
+	}
+
+	suite.report.EXPECT().GetByRepoId(gomock.Any(), gomock.Any()).Return(report, nil)
 	_, err := suite.service.GetReportByRepoId(context.Background(), "fake-uuid")
 	suite.NoError(err)
 }
