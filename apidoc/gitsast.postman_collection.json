@@ -26,7 +26,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\"\n}",
+					"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"reiciendis\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\"\n}",
+							"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"https://github.com/mdlayher/wireguard_exporter.git\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -290,7 +290,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+									"value": "{{repo_id}}"
 								}
 							]
 						}
@@ -389,7 +389,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+									"value": "{{repo_id}}"
 								}
 							]
 						}
@@ -462,7 +462,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"praesentium\",\n    \"remote_url\": \"github.com/Maia_Bergstrom/rerum-alias-dolore\"\n}",
+							"raw": "{\n    \"name\": \"{{$randomLoremWord}}\",\n    \"remote_url\": \"github.com/{{$randomUserName}}/{{$randomLoremSlug}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -488,7 +488,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+									"value": "{{repo_id}}"
 								}
 							]
 						}
@@ -589,7 +589,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+									"value": "{{repo_id}}"
 								}
 							]
 						}
@@ -672,7 +672,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3"
+									"value": "{{repo_id}}"
 								}
 							]
 						}
@@ -687,7 +687,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Wed, 22 Feb 2023 05:00:07 GMT"
+							"value": "Thu, 23 Feb 2023 15:14:08 GMT"
 						},
 						{
 							"key": "Transfer-Encoding",
@@ -695,7 +695,70 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"id\": \"62b8b624-4588-4f83-8d61-87bc3a560276\",\n    \"repository_id\": \"bb42beea-4118-4885-8f88-f291aa0fe790\",\n    \"status\": \"success\",\n    \"created_at\": \"2023-02-22T04:59:58.935452Z\",\n    \"updated_at\": \"2023-02-22T04:59:59.648372Z\",\n    \"enqueue_at\": \"2023-02-22T04:59:58.938824Z\",\n    \"started_at\": \"2023-02-22T04:59:58.969337Z\",\n    \"finished_at\": \"2023-02-22T04:59:59.648372Z\",\n    \"issues\": [\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse.go\",\n                \"line\": 13\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 66\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 67\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 68\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 69\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 70\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 71\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 72\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 73\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 74\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 75\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 76\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 77\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 78\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 37\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 49\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 32\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 39\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 47\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 51\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 32\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 39\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 47\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        },\n        {\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"line\": 51\n            },\n            \"description\": \"A secret starts with the prefix public_key\",\n            \"severity\": \"LOW\",\n            \"keyword\": \"public_key\"\n        }\n    ]\n}"
+					"body": "{\n    \"id\": \"78589fe4-8365-4c86-9b78-3401ab7f35a3\",\n    \"repository_id\": \"1336634e-73f4-438a-ab3a-152d52f071d9\",\n    \"status\": \"success\",\n    \"created_at\": \"2023-02-23T15:14:05.673514Z\",\n    \"updated_at\": \"2023-02-23T15:14:07.121661Z\",\n    \"enqueue_at\": \"2023-02-23T15:14:05.6767Z\",\n    \"started_at\": \"2023-02-23T15:14:05.691266Z\",\n    \"finished_at\": \"2023-02-23T15:14:07.121661Z\",\n    \"findings\": [\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 13\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 66\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 67\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 68\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 69\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 70\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 71\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 72\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 73\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 74\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 75\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 76\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 77\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 78\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 37\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 49\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 32\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 39\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 47\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 51\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 32\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 39\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 47\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        },\n        {\n            \"type\": \"sast\",\n            \"ruleId\": \"G001\",\n            \"location\": {\n                \"path\": \"/parse_test.go\",\n                \"position\": {\n                    \"begin\": {\n                        \"line\": 51\n                    }\n                }\n            },\n            \"metadata\": {\n                \"description\": \"A secret starts with the prefix public_key\",\n                \"severity\": \"LOW\"\n            }\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/health",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "health check",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"health"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Feb 2023 15:13:24 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\"\n}"
 				}
 			]
 		}

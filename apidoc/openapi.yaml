@@ -1,0 +1,957 @@
+openapi: 3.1.0
+info:
+  title: gitsast
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://127.0.0.1
+paths:
+  /api/v1/repository:
+    get:
+      summary: list repository
+      description: list repository
+      operationId: listRepository
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+            example: quo
+        - name: remote_url
+          in: query
+          schema:
+            type: string
+            example: github.com/Alexandrine_Waters/dolor-aliquam-minus
+        - name: limit
+          in: query
+          schema:
+            type: string
+            example: "2"
+        - name: offset
+          in: query
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: list repository
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "678"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 05:00:17 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  repositories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          example: "2023-02-22T04:58:59.794583Z"
+                        id:
+                          type: string
+                          example: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
+                        name:
+                          type: string
+                          example: voluptatibus
+                        remote_url:
+                          type: string
+                          example: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at:
+                          type: string
+                          example: "2023-02-22T04:58:59.794583Z"
+                    example:
+                      - created_at: "2023-02-22T04:58:59.794583Z"
+                        id: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
+                        name: voluptatibus
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:58:59.794583Z"
+                      - created_at: "2023-02-22T04:59:31.941957Z"
+                        id: 235025e4-73d7-4294-8ecd-06d9a71d2015
+                        name: expedita
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:59:31.941957Z"
+                      - created_at: "2023-02-22T04:59:45.723021Z"
+                        id: bb42beea-4118-4885-8f88-f291aa0fe790
+                        name: atque
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:59:45.723021Z"
+                  total:
+                    type: number
+                    example: 3
+              examples:
+                list repository:
+                  value:
+                    repositories:
+                      - created_at: "2023-02-22T04:58:59.794583Z"
+                        id: 7e898d91-0cf8-4c03-a7ec-67f2f0a0f034
+                        name: voluptatibus
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:58:59.794583Z"
+                      - created_at: "2023-02-22T04:59:31.941957Z"
+                        id: 235025e4-73d7-4294-8ecd-06d9a71d2015
+                        name: expedita
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:59:31.941957Z"
+                      - created_at: "2023-02-22T04:59:45.723021Z"
+                        id: bb42beea-4118-4885-8f88-f291aa0fe790
+                        name: atque
+                        remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                        updated_at: "2023-02-22T04:59:45.723021Z"
+                    total: 3
+    post:
+      summary: add repository
+      description: add repository
+      operationId: addRepository
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ""
+                remote_url:
+                  type: string
+                  example: https://github.com/mdlayher/wireguard_exporter
+            example:
+              name: ""
+              remote_url: https://github.com/mdlayher/wireguard_exporter
+      responses:
+        "200":
+          description: add repository
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "213"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 04:59:45 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    example: "2023-02-22T04:59:45.723021Z"
+                  id:
+                    type: string
+                    example: bb42beea-4118-4885-8f88-f291aa0fe790
+                  name:
+                    type: string
+                    example: atque
+                  remote_url:
+                    type: string
+                    example: https://github.com/mdlayher/wireguard_exporter.git
+                  updated_at:
+                    type: string
+                    example: "2023-02-22T04:59:45.723021Z"
+              examples:
+                add repository:
+                  value:
+                    created_at: "2023-02-22T04:59:45.723021Z"
+                    id: bb42beea-4118-4885-8f88-f291aa0fe790
+                    name: atque
+                    remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                    updated_at: "2023-02-22T04:59:45.723021Z"
+  /api/v1/repository/{id}:
+    get:
+      summary: get repository by ID
+      description: get repository by ID
+      operationId: getRepositoryById
+      responses:
+        "200":
+          description: get repository by ID
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "213"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 05:00:34 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    example: "2023-02-22T04:59:45.723021Z"
+                  id:
+                    type: string
+                    example: bb42beea-4118-4885-8f88-f291aa0fe790
+                  name:
+                    type: string
+                    example: atque
+                  remote_url:
+                    type: string
+                    example: https://github.com/mdlayher/wireguard_exporter.git
+                  updated_at:
+                    type: string
+                    example: "2023-02-22T04:59:45.723021Z"
+              examples:
+                get repository by ID:
+                  value:
+                    created_at: "2023-02-22T04:59:45.723021Z"
+                    id: bb42beea-4118-4885-8f88-f291aa0fe790
+                    name: atque
+                    remote_url: https://github.com/mdlayher/wireguard_exporter.git
+                    updated_at: "2023-02-22T04:59:45.723021Z"
+    put:
+      summary: update repository by ID
+      description: update repository by ID
+      operationId: updateRepositoryById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ""
+                remote_url:
+                  type: string
+                  example: github.com//
+            example:
+              name: ""
+              remote_url: github.com//
+      responses:
+        "200":
+          description: update repository by ID
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "0"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 05:00:46 GMT
+          content: {}
+    delete:
+      summary: remove repository by ID
+      description: remove repository by ID
+      operationId: removeRepositoryById
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: remove repository by ID
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "0"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 05:01:14 GMT
+          content: {}
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3
+  /api/v1/repository/{id}/scan:
+    post:
+      summary: trigger  repository scan by ID
+      description: trigger  repository scan by ID
+      operationId: triggerRepositoryScanById
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: trigger  repository scan by ID
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "338"
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 04:59:58 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    example: "2023-02-22T11:59:58.935452+07:00"
+                  enqueue_at:
+                    type: string
+                    example: "2023-02-22T11:59:58.938824+07:00"
+                  finished_at:
+                    type: string
+                    example: "0001-01-01T00:00:00Z"
+                  id:
+                    type: string
+                    example: 62b8b624-4588-4f83-8d61-87bc3a560276
+                  repository_id:
+                    type: string
+                    example: bb42beea-4118-4885-8f88-f291aa0fe790
+                  started_at:
+                    type: string
+                    example: "0001-01-01T00:00:00Z"
+                  status:
+                    type: string
+                    example: enqueued
+                  updated_at:
+                    type: string
+                    example: "2023-02-22T11:59:58.935452+07:00"
+              examples:
+                trigger  repository scan by ID:
+                  value:
+                    created_at: "2023-02-22T11:59:58.935452+07:00"
+                    enqueue_at: "2023-02-22T11:59:58.938824+07:00"
+                    finished_at: "0001-01-01T00:00:00Z"
+                    id: 62b8b624-4588-4f83-8d61-87bc3a560276
+                    repository_id: bb42beea-4118-4885-8f88-f291aa0fe790
+                    started_at: "0001-01-01T00:00:00Z"
+                    status: enqueued
+                    updated_at: "2023-02-22T11:59:58.935452+07:00"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3
+  /api/v1/repository/{id}/report:
+    get:
+      summary: get report by repository ID
+      description: get report by repository ID
+      operationId: getReportByRepositoryId
+      responses:
+        "200":
+          description: get report by repository ID
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Feb 2023 15:14:08 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    example: "2023-02-23T15:14:05.673514Z"
+                  enqueue_at:
+                    type: string
+                    example: "2023-02-23T15:14:05.6767Z"
+                  findings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: object
+                          properties:
+                            path:
+                              type: string
+                              example: /parse.go
+                            position:
+                              type: object
+                              properties:
+                                begin:
+                                  type: object
+                                  properties:
+                                    line:
+                                      type: number
+                                      example: 13
+                        metadata:
+                          type: object
+                          properties:
+                            description:
+                              type: string
+                              example: A secret starts with the prefix public_key
+                            severity:
+                              type: string
+                              example: LOW
+                        ruleId:
+                          type: string
+                          example: G001
+                        type:
+                          type: string
+                          example: sast
+                    example:
+                      - location:
+                          path: /parse.go
+                          position:
+                            begin:
+                              line: 13
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 66
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 67
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 68
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 69
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 70
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 71
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 72
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 73
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 74
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 75
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 76
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 77
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 78
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 37
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 49
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 32
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 39
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 47
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 51
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 32
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 39
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 47
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 51
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                  finished_at:
+                    type: string
+                    example: "2023-02-23T15:14:07.121661Z"
+                  id:
+                    type: string
+                    example: 78589fe4-8365-4c86-9b78-3401ab7f35a3
+                  repository_id:
+                    type: string
+                    example: 1336634e-73f4-438a-ab3a-152d52f071d9
+                  started_at:
+                    type: string
+                    example: "2023-02-23T15:14:05.691266Z"
+                  status:
+                    type: string
+                    example: success
+                  updated_at:
+                    type: string
+                    example: "2023-02-23T15:14:07.121661Z"
+              examples:
+                get report by repository ID:
+                  value:
+                    created_at: "2023-02-23T15:14:05.673514Z"
+                    enqueue_at: "2023-02-23T15:14:05.6767Z"
+                    findings:
+                      - location:
+                          path: /parse.go
+                          position:
+                            begin:
+                              line: 13
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 66
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 67
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 68
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 69
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 70
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 71
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 72
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 73
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 74
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 75
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 76
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 77
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 78
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 37
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 49
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 32
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 39
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 47
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 51
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 32
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 39
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 47
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                      - location:
+                          path: /parse_test.go
+                          position:
+                            begin:
+                              line: 51
+                        metadata:
+                          description: A secret starts with the prefix public_key
+                          severity: LOW
+                        ruleId: G001
+                        type: sast
+                    finished_at: "2023-02-23T15:14:07.121661Z"
+                    id: 78589fe4-8365-4c86-9b78-3401ab7f35a3
+                    repository_id: 1336634e-73f4-438a-ab3a-152d52f071d9
+                    started_at: "2023-02-23T15:14:05.691266Z"
+                    status: success
+                    updated_at: "2023-02-23T15:14:07.121661Z"
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: dd6bdc0a-6b7b-481b-b012-fcf1b8ecfce3
+  /health:
+    get:
+      summary: health check
+      description: health check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: health check
+          headers:
+            Content-Length:
+              schema:
+                type: string
+                example: "16"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Feb 2023 15:13:24 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+              examples:
+                health check:
+                  value:
+                    status: ok
+tags: []
