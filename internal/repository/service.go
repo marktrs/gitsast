@@ -27,7 +27,7 @@ type IService interface {
 	Update(ctx context.Context, id string, req *UpdateRepositoryRequest) error
 	Remove(ctx context.Context, id string) error
 	CreateReport(ctx context.Context, repoId string) (*model.Report, error)
-	GetReportByRepoId(ctx context.Context, repoId string) (*model.Report, error)
+	GetReportByRepoId(ctx context.Context, repoId string) (*GetReportResponse, error)
 }
 
 type service struct {
@@ -174,9 +174,36 @@ func (s *service) CreateReport(ctx context.Context, repoId string) (*model.Repor
 	return report, nil
 }
 
+type GetReportResponse struct {
+	model.Report
+	Findings []*model.Finding `json:"findings"`
+}
+
 // GetReport - Implements IService.GetReport interface.
-func (s *service) GetReportByRepoId(ctx context.Context, id string) (*model.Report, error) {
-	return s.report.GetByRepoId(ctx, id)
+func (s *service) GetReportByRepoId(ctx context.Context, id string) (*GetReportResponse, error) {
+	report, err := s.report.GetByRepoId(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	var findings []*model.Finding
+	for _, issue := range report.Issues {
+		var finding model.Finding
+		finding.Type = "sast"
+		finding.RuleID = issue.RuleID
+		finding.Location.Path = issue.Location.Path
+		finding.Location.Position.Begin.Line = int(issue.Location.Line)
+		finding.Metadata.Description = issue.Description
+		finding.Metadata.Severity = issue.Severity
+		findings = append(findings, &finding)
+	}
+
+	var response GetReportResponse
+	response.Report = *report
+	response.Issues = nil
+	response.Findings = findings
+
+	return &response, nil
 }
 
 func ValidateGitRemoteURL(fl validator.FieldLevel) bool {

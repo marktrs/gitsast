@@ -1,16 +1,21 @@
 package model
 
-// {
-// 	"ruleId": "G402",
-// 	"location": {
-//         "path": "connectors/apigateway.go",
-//         "positions": {
-//           "begin": {
-//             "line": 60
-//           }
-//         }
-//       },
-//  }
+type Finding struct {
+	Type     string `json:"type"`
+	RuleID   string `json:"ruleId"`
+	Location struct {
+		Path     string `json:"path"`
+		Position struct {
+			Begin struct {
+				Line int `json:"line"`
+			} `json:"begin"`
+		} `json:"position"`
+	} `json:"location"`
+	Metadata struct {
+		Description string `json:"description"`
+		Severity    string `json:"severity"`
+	} `json:"metadata"`
+}
 
 type Issue struct {
 	RuleID      string   `json:"ruleId"`

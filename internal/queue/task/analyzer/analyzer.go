@@ -21,7 +21,7 @@ var cloneLocationPrefix = "temp/"
 var (
 	Task = taskq.RegisterTask(&taskq.TaskOptions{
 		Name: "analyzer",
-		Handler: func(configPath, reportId string) error {
+		Handler: func(reportId string) error {
 			_, app, err := app.Start(context.Background(), "analyzerTask", "")
 			if err != nil {
 				return err

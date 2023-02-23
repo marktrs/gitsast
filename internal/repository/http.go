@@ -165,10 +165,10 @@ func (h *httpHandler) GetReport(w http.ResponseWriter, req bunrouter.Request) er
 		return ErrInvalidParam
 	}
 
-	report, err := h.service.GetReportByRepoId(ctx, id)
+	response, err := h.service.GetReportByRepoId(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	return bunrouter.JSON(w, &report)
+	return bunrouter.JSON(w, &response)
 }
