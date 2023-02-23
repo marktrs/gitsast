@@ -6,10 +6,10 @@ import (
 	"path"
 	"time"
 
-	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/model"
 	"github.com/marktrs/gitsast/internal/queue/task/analyzer/git"
+	"github.com/rs/zerolog/log"
 	"github.com/vmihailenco/taskq/v3"
 )
 
@@ -77,21 +77,27 @@ func NewAnalyzer(
 // Analyze - implement analyze task interface
 func (a *Analyzer) Analyze(reportId string) error {
 	ctx := context.Background()
+	log := log.Info().Fields(map[string]interface{}{
+		"report_id": reportId,
+	})
+
+	log.Msg("starting analyze task")
 
 	report, err := a.report.GetById(ctx, reportId)
 	if err != nil {
-		log.Error(err)
+		log.Err(err)
 		return err
 	}
 
 	report.StartedAt = time.Now()
 
 	// set status
-	log.Infof("starting analyzed task report_id=%s", report.ID)
+	log.Msg("set status to in_progress")
 	if err := a.setReportStatus(report, model.StatusInProgress); err != nil {
 		return a.handleFailedTask(report, err)
 	}
 
+	log.Str("repository_id", report.RepositoryID).Msg("get repository by id")
 	repo, err := a.repo.GetById(ctx, report.RepositoryID)
 	if err != nil {
 		return a.handleFailedTask(report, err)
@@ -105,25 +111,23 @@ func (a *Analyzer) Analyze(reportId string) error {
 
 	tmpDir := path.Join(cloneLocationPrefix, repo.ID)
 
-	log.Infof("getting paths from remote url=%s", repo.RemoteURL)
-	// look up for latest code
+	log.Str("url", repo.RemoteURL).Msg("getting paths from remote url")
 	paths, err := a.git.GetPathsFromRemoteURL(tmpDir, repo.RemoteURL)
 	if err != nil {
 		return a.handleFailedTask(report, err)
 	}
 	defer a.removeTempDir(tmpDir)
 
-	log.Infof("scanning files for issues url=%s", repo.RemoteURL)
-
+	log.Str("url", repo.RemoteURL).Msg("scanning files for issues")
 	issues, err := a.scanner.ScanFilesForIssues(repo.ID, paths, rules)
 	if err != nil {
 		return a.handleFailedTask(report, err)
 	}
 
 	if len(issues) == 0 {
-		log.Infof("no issues found report_id=%s", report.ID)
+		log.Msg("no issues found")
 	} else {
-		log.Infof("adding issues to report report_id=%s", report.ID)
+		log.Msg("adding issues to report")
 		report.Issues = issues
 	}
 
@@ -131,7 +135,7 @@ func (a *Analyzer) Analyze(reportId string) error {
 	if err := a.setReportStatus(report, model.StatusSuccess); err != nil {
 		return a.handleFailedTask(report, err)
 	}
-	log.Infof("analyzed task completed report_id=%s", report.ID)
+	log.Msg("analyzed task completed")
 
 	return nil
 }
@@ -139,7 +143,7 @@ func (a *Analyzer) Analyze(reportId string) error {
 // removeTempDir - remove cloned repo directory
 func (a *Analyzer) removeTempDir(tmpDir string) error {
 	if err := os.RemoveAll(tmpDir); err != nil {
-		log.Error(err)
+		log.Err(err)
 		return err
 	}
 
@@ -148,7 +152,7 @@ func (a *Analyzer) removeTempDir(tmpDir string) error {
 
 // handleFailedTask - set report status to failed with reason
 func (a *Analyzer) handleFailedTask(report *model.Report, err error) error {
-	log.Error(err)
+	log.Err(err)
 	report.FailedReason = err.Error()
 	return a.setReportStatus(report, model.StatusFailed)
 }

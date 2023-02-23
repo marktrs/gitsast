@@ -5,8 +5,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/internal/model"
+	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bunrouter"
 )
 
@@ -46,7 +46,9 @@ func (h *httpHandler) GetById(w http.ResponseWriter, req bunrouter.Request) erro
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		log.Err(ErrInvalidParam).
+			Any("params", req.Params().Map()).
+			Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -102,7 +104,9 @@ func (h *httpHandler) Update(w http.ResponseWriter, req bunrouter.Request) error
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		log.Err(ErrInvalidParam).
+			Any("params", req.Params().Map()).
+			Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -126,7 +130,9 @@ func (h *httpHandler) Remove(w http.ResponseWriter, req bunrouter.Request) error
 	params := req.Params().Map()
 	id, ok := params["id"]
 	if !ok {
-		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		log.Err(ErrInvalidParam).
+			Any("params", req.Params().Map()).
+			Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -141,7 +147,9 @@ func (h *httpHandler) Scan(w http.ResponseWriter, req bunrouter.Request) error {
 
 	id, ok := params["id"]
 	if !ok {
-		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		log.Err(ErrInvalidParam).
+			Any("params", req.Params().Map()).
+			Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 
@@ -161,7 +169,9 @@ func (h *httpHandler) GetReport(w http.ResponseWriter, req bunrouter.Request) er
 
 	id, ok := params["id"]
 	if !ok {
-		log.Errorf("unable to get repo by ID : %s %v", ErrInvalidParam.Error(), req.Params().Map())
+		log.Err(ErrInvalidParam).
+			Any("params", req.Params().Map()).
+			Msg("unable to get report by repo ID")
 		return ErrInvalidParam
 	}
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/internal/model"
+	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/migrate"
 )
@@ -32,29 +32,29 @@ func NewDBMigrator(db *bun.DB) *dbMigrator {
 
 // Migrate - start db migration with list of models
 func (m *dbMigrator) Migrate() error {
-	log.Info("starting db migration")
+	log.Info().Msg("starting db migration")
 	if err := m.DropTable(); err != nil {
-		log.Error(err)
+		log.Err(err)
 		return err
 	}
 
 	if err := m.CreateTablesIfNotExist(); err != nil {
-		log.Error(err)
+		log.Err(err)
 		return err
 	}
 
 	if err := m.InsertInitialRulesIfNotExist(); err != nil {
-		log.Error(err)
+		log.Err(err)
 		return err
 	}
 
-	log.Info("db migration complete")
+	log.Info().Msg("db migration complete")
 	return nil
 }
 
 // ResetTable - reset table
 func (m *dbMigrator) DropTable() error {
-	log.Info("resetting table")
+	log.Info().Msg("resetting table")
 
 	for _, model := range m.models {
 		_, err := m.db.NewDropTable().
@@ -62,34 +62,34 @@ func (m *dbMigrator) DropTable() error {
 			IfExists().
 			Exec(context.Background())
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 			return err
 		}
 	}
 
-	log.Info("reset table complete")
+	log.Info().Msg("reset table complete")
 	return nil
 }
 
 // createTablesIfNotExist - Iterate through the list of model to create new tables if doesn't exist
 func (m *dbMigrator) CreateTablesIfNotExist() error {
-	log.Info("creating tables if not exist")
+	log.Info().Msg("creating tables if not exist")
 	for _, model := range m.models {
 		_, err := m.db.NewCreateTable().
 			Model(model).
 			IfNotExists().
 			Exec(context.Background())
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 			return err
 		}
 	}
-	log.Info("created tables")
+	log.Info().Msg("created tables")
 	return nil
 }
 
 func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
-	log.Info("initializing rules")
+	log.Info().Msg("initializing rules")
 	rules := []*model.Rule{
 		{
 			ID:          1,
@@ -119,7 +119,7 @@ func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
 			Where("keyword IN (?)", bun.In(keywords)).
 			Exists(ctx)
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 			return err
 		}
 
@@ -132,11 +132,11 @@ func (m *dbMigrator) InsertInitialRulesIfNotExist() error {
 			Model(&rules).
 			Exec(context.Background())
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 			return err
 		}
 
-		log.Info("initialized rules")
+		log.Info().Msg("initialized rules")
 
 		return nil
 	})

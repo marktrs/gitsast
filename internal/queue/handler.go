@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/labstack/gommon/log"
+	"github.com/rs/zerolog/log"
 
 	"github.com/go-redis/redis/v8"
 
@@ -44,7 +44,6 @@ func (h *handler) AddTask(t *taskq.Message) error {
 }
 
 func (h *handler) StartConsumer() error {
-	log.Info("starting queue consumer")
 	queueConsumerErr := make(chan error)
 
 	go func() {
@@ -57,7 +56,7 @@ func (h *handler) StartConsumer() error {
 	case err := <-queueConsumerErr:
 		return err
 	case sig := <-shutdown:
-		log.Infof("stopping queue consumer with signal: %v", sig)
+		log.Info().Any("signal", sig).Msg("stopping queue consumer with signal")
 		err := h.queueFactory.StopConsumers()
 		if err != nil {
 			return err
@@ -68,8 +67,7 @@ func (h *handler) StartConsumer() error {
 			return err
 		}
 
-		log.Infof("stopped queue consumer with signal: %v", sig)
+		log.Info().Any("signal", sig).Msg("stopped queue consumer with signal")
 	}
-
 	return nil
 }

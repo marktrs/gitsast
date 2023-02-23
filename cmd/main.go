@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/cmd/api"
 	"github.com/marktrs/gitsast/cmd/database"
 	_ "github.com/marktrs/gitsast/internal/model"
 	_ "github.com/marktrs/gitsast/internal/repository"
+	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 )
 
@@ -27,6 +27,6 @@ func main() {
 		},
 	}
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		log.Fatal().AnErr("error", err).Msg("failed to run app")
 	}
 }

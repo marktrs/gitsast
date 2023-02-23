@@ -11,6 +11,7 @@ import (
 
 	"github.com/benbjohnson/clock"
 	"github.com/go-playground/validator/v10"
+	"github.com/rs/zerolog"
 
 	"github.com/marktrs/gitsast/internal/queue"
 	"github.com/uptrace/bun"
@@ -64,6 +65,11 @@ func New(ctx context.Context, cfg *AppConfig) *App {
 	}
 
 	app.ctx = ContextWithApp(ctx, app)
+
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if cfg.Debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
 
 	app.initRouter()
 	app.initQueue()

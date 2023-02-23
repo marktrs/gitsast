@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/labstack/gommon/log"
+	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bunrouter"
 )
 
@@ -14,7 +14,7 @@ func ErrorHandler(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 		err := next(w, req)
 
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 
 			switch err := err.(type) {
 			case HTTPError:

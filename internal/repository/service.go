@@ -8,11 +8,11 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
-	"github.com/labstack/gommon/log"
 	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/model"
 	"github.com/marktrs/gitsast/internal/queue"
 	"github.com/marktrs/gitsast/internal/queue/task/analyzer"
+	"github.com/rs/zerolog/log"
 )
 
 // IService variable that does static check to make sure that 'service' struct implements 'IService' interface.
@@ -41,7 +41,7 @@ type service struct {
 
 type AddRepositoryRequest struct {
 	Name      string `json:"name" validate:"required,max=120"`
-	RemoteURL string `json:"remote_url" validate:"required,max=120,git-remote-url"`
+	RemoteURL string `json:"remote_url" validate:"required,max=120,is-git-url"`
 }
 
 func (r *AddRepositoryRequest) Validate(validator *validator.Validate) error {
@@ -50,7 +50,7 @@ func (r *AddRepositoryRequest) Validate(validator *validator.Validate) error {
 
 type UpdateRepositoryRequest struct {
 	Name      string `json:"name" validate:"max=120"`
-	RemoteURL string `json:"remote_url" validate:"max=120,git-remote-url"`
+	RemoteURL string `json:"remote_url" validate:"max=120,is-git-url"`
 }
 
 func (r *UpdateRepositoryRequest) Validate(validator *validator.Validate) error {
@@ -58,7 +58,7 @@ func (r *UpdateRepositoryRequest) Validate(validator *validator.Validate) error 
 }
 
 func NewService(app *app.App, rs model.IRepositoryRepo, rp model.IReportRepo) IService {
-	app.Validator().RegisterValidation("git-remote-url", ValidateGitRemoteURL)
+	app.Validator().RegisterValidation("is-git-url", ValidateGitRemoteURL)
 	return &service{
 		app:       app,
 		repo:      rs,
@@ -82,7 +82,7 @@ func (s *service) List(ctx context.Context, f *model.RepositoryFilter) ([]*model
 func (s *service) Add(ctx context.Context, req *AddRepositoryRequest) (*model.Repository, error) {
 	// validate request body
 	if err := req.Validate(s.validator); err != nil {
-		log.Errorf("Request validation failed on add repository handler : %s", err.Error())
+		log.Err(err).Msg("request validation failed on add repository handler")
 		return nil, err
 	}
 
@@ -103,7 +103,7 @@ func (s *service) Update(
 ) error {
 	// validate request body
 	if err := req.Validate(s.validator); err != nil {
-		log.Errorf("Request validation failed on update repository handler : %s", err.Error())
+		log.Err(err).Msg("request validation failed on update repository handler")
 		return err
 	}
 

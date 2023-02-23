@@ -1,8 +1,9 @@
 package api
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/marktrs/gitsast/app"
 	"github.com/marktrs/gitsast/internal/recover"
@@ -48,12 +49,15 @@ func NewAPICommand() *cli.Command {
 			if err := api.Queue().StartConsumer(); err != nil {
 				return err
 			}
+			log.Info().Msg("started queue consumer")
 
+			log.Info().Msgf("listening on %s", srv.Addr)
 			go func() {
 				if err := srv.ListenAndServe(); err != nil && !isServerClosed(err) {
-					log.Printf("ListenAndServe failed: %s", err)
+					log.Err(err).Msg("failed to start server")
 				}
 			}()
+
 			app.WaitExitSignal()
 			return srv.Shutdown(ctx)
 		},

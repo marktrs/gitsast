@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
-	"github.com/labstack/gommon/log"
+	"github.com/rs/zerolog/log"
 )
 
 type IClient interface {
@@ -83,7 +83,7 @@ func excludeIgnorePathsFromTree(treeWalker *object.TreeWalker, tmpDir string) []
 
 		info, err := os.Stat(path.Join(tmpDir, name))
 		if err != nil {
-			log.Error(err)
+			log.Err(err)
 			break
 		}
 

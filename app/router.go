@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/marktrs/gitsast/app/middleware"
+	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bunrouter"
 )
 
@@ -19,6 +20,7 @@ func (app *App) initRouter() {
 
 	app.apiRouter = r.NewGroup("/api").NewGroup("/v1")
 	app.router = r
+	log.Info().Msg("initialized routes")
 }
 
 func Check(w http.ResponseWriter, req bunrouter.Request) error {
