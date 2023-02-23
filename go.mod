@@ -3,7 +3,6 @@ module github.com/marktrs/gitsast
 go 1.20
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/benbjohnson/clock v1.3.0
 	github.com/fatih/semgroup v1.2.0
 	github.com/go-git/go-git/v5 v5.5.2

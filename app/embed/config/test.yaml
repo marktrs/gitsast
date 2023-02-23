@@ -7,4 +7,4 @@ server:
   write_timeout: 10s
   idle_timeout: 60s
 database:
-  dsn: postgres://postgres:postgres@gitsast:5432/test?sslmode=disable
+  dsn: postgres://postgres:postgres@gitsast:5432/gitsast_test?sslmode=disable

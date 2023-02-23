@@ -6,7 +6,18 @@ import (
 	"github.com/marktrs/gitsast/internal/model"
 )
 
-func (t *Analyzer) detectIssueLocation(fragment Fragment, rule *model.Rule) []*model.Issue {
+// detectIssueLocation - detect issue location
+type Detector interface {
+	DetectIssueLocation(fragment Fragment, rule *model.Rule) []*model.Issue
+}
+
+type detector struct{}
+
+func NewDetector() Detector {
+	return &detector{}
+}
+
+func (d *detector) DetectIssueLocation(fragment Fragment, rule *model.Rule) []*model.Issue {
 	issues := make([]*model.Issue, 0)
 	regex := regexp.MustCompile(rule.Keyword)
 	matchIndices := regex.FindAllStringIndex(fragment.Raw, -1)

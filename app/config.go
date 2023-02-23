@@ -34,8 +34,9 @@ type AppConfig struct {
 	Server *Server   `yaml:"server,omitempty"`
 	DB     *Database `yaml:"database,omitempty"`
 
-	Debug bool `yaml:"debug,omitempty"`
-	Env   bool `yaml:"env,omitempty"`
+	Debug   bool   `yaml:"debug,omitempty"`
+	Env     string `yaml:"env,omitempty"`
+	Service string `yaml:"service,omitempty"`
 }
 
 // Database holds data for database configuration
@@ -59,6 +60,10 @@ func LoadConfigFile(fsys fs.FS, service, env string) (*AppConfig, error) {
 	// default config
 	var c AppConfig
 
+	if env == "" {
+		env = "dev"
+	}
+
 	// load from YAML config file
 	if rawcfg, err := fs.ReadFile(fsys, path.Join("config", env+".yaml")); err == nil {
 		if err := yaml.Unmarshal(rawcfg, &c); err != nil {
@@ -67,6 +72,9 @@ func LoadConfigFile(fsys fs.FS, service, env string) (*AppConfig, error) {
 	} else {
 		return nil, err
 	}
+
+	c.Env = env
+	c.Service = service
 
 	// if dsn still empty, throw error
 	if c.DB.DSN == "" {

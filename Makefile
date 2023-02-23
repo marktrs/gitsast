@@ -36,3 +36,13 @@ mock:
 	mockgen -source=internal/queue/handler.go \
 		-package testutil \
 		-destination=testutil/mocks/queue/handler.go
+	mockgen -source=internal/queue/task/analyzer/git/client.go \
+		-package testutil \
+		-destination=testutil/mocks/queue/analyzer/client.go
+	mockgen -source=internal/queue/task/analyzer/detector.go \
+		-package testutil \
+		-destination=testutil/mocks/queue/analyzer/detector.go
+	mockgen -source=internal/queue/task/analyzer/scanner.go \
+		-package testutil \
+		-destination=testutil/mocks/queue/analyzer/scanner.go
+	
